@@ -1,20 +1,19 @@
-﻿@model GcwensaHrApp.ViewModels.LeaveRequestViewModel
-@using GcwensaHrApp.Enums
+﻿@using GcwensaHrApp.Enums;
+@model GcwensaHrApp.ViewModels.LeaveRequestViewModel
 
 @{
-    ViewData["Title"] = "Create Leave";
-    Model.LeaveStartDate = DateTime.Today;
-    Model.LeaveEndDate = DateTime.Today;
+    ViewData["Title"] = "EditLeaveRequest";
 }
 
-<h1>CreateLeaveRequest</h1>
+<h1>EditLeaveRequest</h1>
 
-<h4>LeaveRequest</h4>
+<h4>LeaveRequestViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateLeaveRequest">
+        <form asp-action="EditLeaveRequest">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="LeaveId" />
             <div class="form-group">
                 <label asp-for="LeaveType" class="control-label"></label>
                 <select asp-for="LeaveType" class="form-control">
@@ -36,19 +35,19 @@
                 <span asp-validation-for="LeaveEndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Reason:</label>
-                <textarea rows="3" asp-for="LeaveReason" class="form-control" ></textarea>
+                <label asp-for="LeaveReason" class="control-label"></label>
+                <input asp-for="LeaveReason" class="form-control" />
                 <span asp-validation-for="LeaveReason" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a class="btn btn-secondary" asp-controller="Dashboard" asp-action="Index">Back</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

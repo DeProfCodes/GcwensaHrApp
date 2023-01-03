@@ -10,10 +10,17 @@ namespace GcwensaHrApp.BusinessLogic
 
         public Task<List<LeaveRequest>> GetAllLeaveRequests();
 
+        public Task<LeaveRequest> GetLeaveRequestById(int leaveId);
+
         public Task<List<LeaveRequest>> GetAllUserLeaveRequests(string userId);
 
         public Task CreateLeaveRequest(string userId, LeaveRequestViewModel leaveRequestVM);
 
+        public Task EditLeaveRequest(LeaveRequestViewModel leaveRequestVM);
+
+        public Task CancelLeaveRequest(int leaveId);
+
+        public Task DeleteLeaveRequest(int leaveId);
 
     }
 }

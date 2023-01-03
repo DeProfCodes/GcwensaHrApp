@@ -6,7 +6,8 @@ namespace GcwensaHrApp.ViewModels
 {
     public class LeaveRequestViewModel
     {
-
+        public int LeaveId { get; set; }
+        
         [Required]  
         [DataType(DataType.Date)]
         public DateTime LeaveStartDate { get; set; }

@@ -15,6 +15,12 @@ namespace GcwensaHrApp.Enums
         Approved = 3,
 
         [Display(Name = "Rejected")]
-        Rejected = 4
+        Rejected = 4,
+
+        [Display(Name = "Deleted")]
+        Deleted = 5,
+
+        [Display(Name = "Cancelled")]
+        Cancelled = 6
     }
 }

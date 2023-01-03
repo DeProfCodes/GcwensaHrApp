@@ -1,4 +1,5 @@
 ﻿using GcwensaHrApp.Data;
+using GcwensaHrApp.Enums;
 using GcwensaHrApp.Models;
 using GcwensaHrApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -31,9 +32,45 @@ namespace GcwensaHrApp.BusinessLogic
                 LeaveEndDate = leaveRequestVM.LeaveEndDate,
                 LeaveReason = leaveRequestVM.LeaveReason,    
                 LeaveType = leaveRequestVM.LeaveType,    
+                LeaveStatus = LeaveStatus.Pending
             };
 
             _dbContext.Add(leaveRequest);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task EditLeaveRequest(LeaveRequestViewModel leaveRequestVM)
+        {
+            var leaveReq = await GetLeaveRequestById(leaveRequestVM.LeaveId);
+
+            leaveReq.LeaveStartDate = leaveRequestVM.LeaveStartDate;
+            leaveReq.LeaveEndDate = leaveRequestVM.LeaveEndDate;
+            leaveReq.LeaveDaysDuration = (int)leaveRequestVM.LeaveEndDate.Subtract(leaveRequestVM.LeaveStartDate).TotalDays;
+            leaveReq.LeaveReason = leaveRequestVM.LeaveReason;
+            leaveReq.LeaveType = leaveRequestVM.LeaveType;
+            leaveReq.LastUpdateTime = DateTime.Now;
+
+            _dbContext.Update(leaveReq);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task CancelLeaveRequest(int leaveId)
+        {
+            var leaveReq = await GetLeaveRequestById(leaveId);
+
+            leaveReq.LeaveStatus = LeaveStatus.Cancelled;
+
+            _dbContext.Update(leaveReq);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteLeaveRequest(int leaveId)
+        {
+            var leaveReq = await GetLeaveRequestById(leaveId);
+
+            leaveReq.LeaveStatus = LeaveStatus.Deleted;
+
+            _dbContext.Update(leaveReq);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -47,6 +84,13 @@ namespace GcwensaHrApp.BusinessLogic
         public async Task<List<LeaveRequest>> GetAllUserLeaveRequests(string userId)
         {
             var leaveRequests = await _dbContext.LeaveRequests.Where(x => x.UserId == userId).ToListAsync();
+
+            return leaveRequests;
+        }
+
+        public async Task<LeaveRequest> GetLeaveRequestById(int leaveId)
+        {
+            var leaveRequests = await _dbContext.LeaveRequests.FirstOrDefaultAsync(x => x.Id == leaveId);
 
             return leaveRequests;
         }

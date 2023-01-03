@@ -63,14 +63,43 @@ namespace GcwensaHrApp.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
-        public IActionResult EditLeaveRequest(int leaveId)
+        [HttpGet]
+        public async Task<IActionResult> EditLeaveRequest(int leaveId)
         {
-            return View();  
+            var leaveReq = await _leaveRequestIO.GetLeaveRequestById(leaveId);
+
+            var leaveReqVm = new LeaveRequestViewModel
+            {
+                LeaveId = leaveId,  
+                LeaveType = leaveReq.LeaveType,
+                LeaveReason = leaveReq.LeaveReason,
+                LeaveStartDate = leaveReq.LeaveStartDate,
+                LeaveEndDate = leaveReq.LeaveEndDate,
+            };
+
+            return View(leaveReqVm);  
         }
 
-        public IActionResult DeleteLeaveRequest(int leaveId)
+        [HttpPost]
+        public async Task<IActionResult> EditLeaveRequest(LeaveRequestViewModel leaveRequest)
         {
-            return View();
+            await _leaveRequestIO.EditLeaveRequest(leaveRequest);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<IActionResult> CancelLeaveRequest(int leaveId)
+        {
+            await _leaveRequestIO.CancelLeaveRequest(leaveId);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<IActionResult> DeleteLeaveRequest(int leaveId)
+        {
+            await _leaveRequestIO.DeleteLeaveRequest(leaveId);
+
+            return RedirectToAction("Index", "Dashboard");
         }
         #endregion
 

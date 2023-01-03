@@ -20,6 +20,7 @@
                         <td>Duration</td>
                         <td>Description</td>
                         <td>Status</td>
+                        <td>Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +33,13 @@
                             <td>@leaveReq.LeaveEndDate.ToString("dd/MM/yyyy")</td>
                             <td>@leaveReq.LeaveDaysDuration</td>
                             <td>@leaveReq.LeaveReason</td>
-                            <td>@leaveReq.LeaveStatus</td>
+                            <td>@leaveReq.LeaveStatus.GetDisplayName()</td>
+                            <td>
+                                <div style="display:flex">
+                                    <button class="btn btn-primary" onclick="window.location='@Url.Action("EditLeaveRequest","LeaveRequests")?leaveId=@leaveReq.Id'">Edit</button>
+                                    <button class="btn btn-danger" onclick="window.location='@Url.Action("CancelLeaveRequest","LeaveRequests")?leaveId=@leaveReq.Id'" style="margin-left:15px">Cancel Leave</button>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>

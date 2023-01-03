@@ -1,6 +1,7 @@
 ﻿using GcwensaHrApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GcwensaHrApp.ViewModels;
 
 namespace GcwensaHrApp.Data
 {

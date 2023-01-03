@@ -23,6 +23,6 @@ namespace GcwensaHrApp.Models
 
         public DateTime LastUpdateTime { get; set; }
 
-        public string LeaveStatus { get; set; }
+        public LeaveStatus LeaveStatus { get; set; }
     }
 }
