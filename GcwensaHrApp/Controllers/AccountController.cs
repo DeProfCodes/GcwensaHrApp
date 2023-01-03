@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text;
 using System.Threading.Tasks;
-using static GcwensaHrApp.Areas.Identity.Pages.Account.LoginModel;
 using GcwensaHrApp.Models;
 using GcwensaHrApp.Enums;
 
@@ -80,7 +79,7 @@ namespace GcwensaHrApp.Controllers
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Dashboard", "Home");
                     }
                 }
                 foreach (var error in result.Errors)
@@ -111,7 +110,7 @@ namespace GcwensaHrApp.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
                 if (result.RequiresTwoFactor)
                 {

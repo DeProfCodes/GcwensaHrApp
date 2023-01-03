@@ -1,0 +1,45 @@
+﻿@using GcwensaHrApp.Enums;
+@model GcwensaHrApp.ViewModels.DashboardViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <p>Welcome @Model.UserDetails.Firstname @Model.UserDetails.Lastname</p>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>Leave Type</td>
+                        <td>Start Date</td>
+                        <td>End Date</td>
+                        <td>Duration</td>
+                        <td>Description</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var leaveReq in Model.LeaveRequests)
+                    {
+                        <tr>
+                            <td>@leaveReq.CreateTime.ToString("dd/MM/yyyy")</td>
+                            <td>@leaveReq.LeaveType.GetDisplayName()</td>
+                            <td>@leaveReq.LeaveStartDate.ToString("dd/MM/yyyy")</td>
+                            <td>@leaveReq.LeaveEndDate.ToString("dd/MM/yyyy")</td>
+                            <td>@leaveReq.LeaveDaysDuration</td>
+                            <td>@leaveReq.LeaveReason</td>
+                            <td>@leaveReq.LeaveStatus</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-info" onclick="window.location='@Url.Action("CreateLeaveRequest","LeaveRequests")'">Create Leave</button>
+    </div>
+</div>

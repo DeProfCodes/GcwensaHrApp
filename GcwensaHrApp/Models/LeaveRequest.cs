@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GcwensaHrApp.Enums;
+using System;
 
 namespace GcwensaHrApp.Models
 {
@@ -14,10 +15,14 @@ namespace GcwensaHrApp.Models
 
         public DateTime LeaveEndDate { get; set; }
 
+        public LeaveType LeaveType { get; set; }
+
         public string LeaveReason { get; set; }
 
         public DateTime CreateTime { get; set; }
 
         public DateTime LastUpdateTime { get; set; }
+
+        public string LeaveStatus { get; set; }
     }
 }

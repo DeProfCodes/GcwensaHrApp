@@ -1,21 +1,42 @@
 ﻿using GcwensaHrApp.BusinessLogic;
+using GcwensaHrApp.Models;
+using GcwensaHrApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace GcwensaHrApp.Controllers
 {
     public class LeaveRequestsController : Controller
     {
-        private readonly ILeaveRequestDataManagement leaveRequestIO;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public LeaveRequestsController(ILeaveRequestDataManagement leaveRequestIO)
+        private readonly ILogger<LeaveRequestsController> _logger;
+        private readonly IUserDataManagement _usersIO;
+        private readonly ILeaveRequestDataManagement _leaveRequestIO;
+
+        public LeaveRequestsController(UserManager<ApplicationUser> userManager, ILogger<LeaveRequestsController> logger, RoleManager<IdentityRole> roleManager, 
+                                       IUserDataManagement usersIO, ILeaveRequestDataManagement leaveRequestIO)
         {
-            this.leaveRequestIO = leaveRequestIO;   
+
+            _logger = logger;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _usersIO = usersIO; 
+            _leaveRequestIO = leaveRequestIO;   
+        }
+
+        private string GetLoggedInEmail()
+        {
+            return User.Identity.Name;
         }
 
         public async Task<IActionResult> Index()
         {
-            var allLeaveRequests = await leaveRequestIO.GetAllLeaveRequests();
+            var allLeaveRequests = await _leaveRequestIO.GetAllLeaveRequests();
 
             return View(allLeaveRequests);
         }
@@ -26,10 +47,20 @@ namespace GcwensaHrApp.Controllers
             return View();    
         }
 
+        [HttpGet]
         public IActionResult CreateLeaveRequest()
         {
+            return View(new LeaveRequestViewModel());  
+        }
 
-            return View();  
+        [HttpPost]
+        public async Task<IActionResult> CreateLeaveRequest(LeaveRequestViewModel leaveRequest)
+        {
+            var user = await _usersIO.GetUserByEmail(GetLoggedInEmail());
+            
+            await _leaveRequestIO.CreateLeaveRequest(user.Id, leaveRequest);
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public IActionResult EditLeaveRequest(int leaveId)

@@ -1,0 +1,56 @@
+﻿@model GcwensaHrApp.ViewModels.LeaveRequestViewModel
+@using GcwensaHrApp.Enums
+
+@{
+    ViewData["Title"] = "Create Leave";
+    Model.LeaveStartDate = DateTime.Today;
+    Model.LeaveEndDate = DateTime.Today;
+}
+
+<h1>CreateLeaveRequest</h1>
+
+<h4>LeaveRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateLeaveRequest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LeaveType" class="control-label"></label>
+                <select asp-for="LeaveType" class="form-control">
+                    <option value="@LeaveType.Sick">@LeaveType.Sick.GetDisplayName()</option>
+                    <option value="@LeaveType.Maternity">@LeaveType.Maternity.GetDisplayName()</option>
+                    <option value="@LeaveType.FamilyResponsibility">@LeaveType.FamilyResponsibility.GetDisplayName()</option>
+                    <option value="@LeaveType.Other">@LeaveType.Other.GetDisplayName()</option>
+                </select>
+                <span asp-validation-for="LeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveStartDate" class="control-label"></label>
+                <input asp-for="LeaveStartDate" class="form-control" />
+                <span asp-validation-for="LeaveStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveEndDate" class="control-label"></label>
+                <input asp-for="LeaveEndDate" class="form-control" />
+                <span asp-validation-for="LeaveEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Reason:</label>
+                <textarea rows="3" asp-for="LeaveReason" class="form-control" ></textarea>
+                <span asp-validation-for="LeaveReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

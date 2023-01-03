@@ -16,7 +16,7 @@ namespace GcwensaHrApp.BusinessLogic
         public async Task<ApplicationUser> GetUserByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-
+            
             return user;
         }
     }
