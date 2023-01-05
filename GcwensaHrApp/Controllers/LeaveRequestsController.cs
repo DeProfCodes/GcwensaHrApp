@@ -12,13 +12,13 @@ namespace GcwensaHrApp.Controllers
     public class LeaveRequestsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         private readonly ILogger<LeaveRequestsController> _logger;
         private readonly IUserDataManagement _usersIO;
         private readonly ILeaveRequestDataManagement _leaveRequestIO;
 
-        public LeaveRequestsController(UserManager<ApplicationUser> userManager, ILogger<LeaveRequestsController> logger, RoleManager<IdentityRole> roleManager, 
+        public LeaveRequestsController(UserManager<ApplicationUser> userManager, ILogger<LeaveRequestsController> logger, RoleManager<ApplicationRole> roleManager, 
                                        IUserDataManagement usersIO, ILeaveRequestDataManagement leaveRequestIO)
         {
 

@@ -49,7 +49,8 @@ namespace GcwensaHrApp.Controllers
                     Lastname = model.Lastname,   
                     PhoneNumber = model.PhoneNumber,
                     UserName = model.Email, 
-                    Email = model.Email 
+                    Email = model.Email,
+                    AccountStatus = AccountStatus.Active
                 };
                 
                 var result = await _userManager.CreateAsync(user, model.Password);

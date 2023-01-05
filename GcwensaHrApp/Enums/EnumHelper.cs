@@ -15,5 +15,21 @@ namespace GcwensaHrApp.Enums
                             .GetCustomAttribute<DisplayAttribute>()
                             .GetName();
         }
+
+        public static string TransalateEnumValueToString(Enum enumType, int value)
+        {
+            if (enumType is AccountStatus)
+            {
+                switch (value)
+                {
+                    case 1: return AccountStatus.Active.GetDisplayName();
+                    case 2: return AccountStatus.Suspended.GetDisplayName();
+                    case 3: return AccountStatus.Paused.GetDisplayName();
+                    case 4: return AccountStatus.Deleted.GetDisplayName();
+                }
+            }
+
+            return "";
+        }
     }
 }

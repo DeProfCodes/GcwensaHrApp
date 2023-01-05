@@ -1,0 +1,51 @@
+﻿@using GcwensaHrApp.Enums;
+@model GcwensaHrApp.ViewModels.UserManagementViewModel
+
+@{
+    ViewData["Title"] = "UsersManagement";
+}
+
+
+
+<div class="container">
+
+    <h1>UsersManagement</h1>
+    <p> <a asp-action="CreateUser">Create New</a> </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>User Role</th>
+                <th>Account Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UserDetails)
+            {
+                <tr>
+                    <td>@item.Firstname</td>
+                    <td>@item.Lastname</td>
+                    <td>@item.Email</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.UserRole</td>
+                    <td>@item.AccountStatus</td>
+                    <td>
+                        <a asp-action="EditUser" asp-route-userId="@item.Id">Edit</a> |
+                        <a asp-action="SuspendUser" asp-route-userId="@item.Id">Suspend User</a> |
+                        <a asp-action="DeleteUser" asp-route-userId="@item.Id">Delete User</a> |
+                        <a asp-action="SuperDeleteUser" asp-route-userId="@item.Id">Super Delete User</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <button class="btn btn-info" onclick="window.location='@Url.Action("Index","Dashboard")'" style="margin-left:15px">Dashboard</button>
+    </div>
+</div>

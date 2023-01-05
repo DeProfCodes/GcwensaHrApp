@@ -8,7 +8,7 @@ namespace GcwensaHrApp.Enums
         [Display(Name = "Admin")]
         Admin = 1,
 
-        [Display(Name = "HrUser")]
+        [Display(Name = "Human Resources")]
         HrUser = 2,
 
         [Display(Name = "Employee")]

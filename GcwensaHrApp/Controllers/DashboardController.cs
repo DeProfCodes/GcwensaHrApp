@@ -12,11 +12,11 @@ namespace GcwensaHrApp.Controllers
     {
         private readonly ILogger<DashboardController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IUserDataManagement _usersIO;
         private readonly ILeaveRequestDataManagement _leaveRequestIO;
 
-        public DashboardController(UserManager<ApplicationUser> userManager, ILogger<DashboardController> logger, RoleManager<IdentityRole> roleManager, IUserDataManagement usersIO, ILeaveRequestDataManagement leaveRequestIO)
+        public DashboardController(UserManager<ApplicationUser> userManager, ILogger<DashboardController> logger, RoleManager<ApplicationRole> roleManager, IUserDataManagement usersIO, ILeaveRequestDataManagement leaveRequestIO)
         {
             _userManager = userManager;
             _logger = logger;
