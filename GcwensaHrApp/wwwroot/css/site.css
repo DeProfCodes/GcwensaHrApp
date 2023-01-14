@@ -67,5 +67,110 @@ body {
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 40px; /* Vertically center the text there */
+}
+
+.custom-nav-ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.custom-nav 
+{
+    float: left;
+}
+
+.custom-nav a 
+{
+    display: block;
+    color: #dd9933!important;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 17px;
+    font-family: Montserrat;
+    text-decoration: none;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+#menuNav
+{
+    height: 105px;
+}
+
+#LoginPage
+{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+}
+
+#LoginFormContainer
+{
+    margin-left: 0;
+    margin-right: 0;
+    padding: 15px 30px;
+    min-width: 260px;
+}
+
+.brandColor
+{
+    color: #ff8400 !important;
+}
+
+#LoginBtn
+{
+    width: 75%;
+    height: 57px;
+    color: #ff8400;
+    margin-top: 10px;
+    background-color: transparent;
+    border: 2px solid #ff8400;
+    font-weight: bold;
+}
+
+.custom-Input-Box1
+{
+    border: 1px solid transparent !important;
+    border-bottom: 2px solid silver !important;
+}
+
+.custom-Input-Box1:focus
+{
+    border: 1px solid #ff8400 !important;
+    box-shadow: none;
+}
+
+#topBanner
+{
+    background: #ef870f;
+    height: 34px;
+}
+
+.topBanner-links
+{
+    display: flex;
+    margin-top: 7px;
+    margin-right: 10px;
+    border-left: 1px solid rgba(0,0,0,.1);
+    padding-left:10px;
+}
+
+.dashIcos
+{
+    width: 16px;
+    height: 16px;
+    margin-top: 0px;
+    margin-right: 3px;
+    font-size: 16px;
+}
+
+#DashboardLogoContainer
+{
+    margin-top: -30px;
+    margin-left: 10px;
 }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using GcwensaHrApp.Enums
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,23 +7,94 @@
     <title>@ViewData["Title"] - GcwensaHrApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/responsiveFonts.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    @{
+        var pageTitle = (string)ViewData["Title"];
+        var activeLinkClr = "color:aquamarine !important";
+
+        var dashboardCss = (pageTitle == "Dashboard" || pageTitle == "Admin Dashboard") ? activeLinkClr : "";
+        var searchCss = (pageTitle == "Search" || pageTitle == "Fixtures List" || pageTitle == "Fixture Predictions") ? activeLinkClr : "";
+        var accSettingsCss = pageTitle == "Account Settings" ? "color:aquamarine !important" : "";//
+        var fixturesCss = (pageTitle == "Fxiture Group" || pageTitle == "Fixture Predictions") ? activeLinkClr : "";
+        var usersCss = (pageTitle == "UsersManagement" || pageTitle == "EditUser" || pageTitle == "CreateUser") ? activeLinkClr : "";
+        var groupsCss = (pageTitle == "Fxiture Group") ? activeLinkClr : "";
+    }
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GcwensaHrApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <div class="w-100" id="topBanner">
+            <ul class="custom-nav-ul" style="margin-left: auto;width: fit-content;font-size:13px; color:white;">
+                <li class="custom-nav">
+                    <div style="display:flex" class="topBanner-links">
+                        <div class="dashIcos">
+                            <iconify-icon icon="dashicons:phone"></iconify-icon>
+                        </div>
+                        <div>
+                            <span class="menu-title-text banner-txt">+27 11 568 0760</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="custom-nav">
+                    <div style="display:flex" class="topBanner-links">
+                        <div class="dashIcos">
+                           <iconify-icon icon="dashicons:admin-home"></iconify-icon>
+                        </div>
+                        <div>
+                            <span class="menu-title-text banner-txt"> The Pivot Block C 1st Floor ,1 Montecasino Blvd, Fourways, Sandton, 2191</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="custom-nav">
+                    <div style="display:flex" class="topBanner-links">
+                        <div class="dashIcos">
+                             <iconify-icon icon="dashicons:email-alt"></iconify-icon>
+                        </div>
+                        <div>
+                            <span class="menu-title-text banner-txt">info@gcwensa.co.za</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <nav id="menuNav" class="navbar border-bottom box-shadow mb-3">
+            <div class="w-100" style="display:flex">
+                <div style="display:flex; position:absolute; cursor:pointer" onclick="window.location='@Url.Action("Dashboard","Dashboard")'">
+                    <div class="navbar-brand" id="DashboardLogoContainer">
+                        <img src="../img/logo.png" id="DashboardLogo" />
+                    </div>
+                </div>
+                <div class="w-100 fs-4" style="min-width:480px">
+                    <ul class="custom-nav-ul" style="margin-left: auto;width: fit-content;">
+                        <li class="custom-nav">
+                            <a onclick="LoadNavLink('Dashboard')" style="@dashboardCss">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        @if (User.IsInRole(UserRole.Admin.GetDisplayName()))
+                        {
+                            <li class="custom-nav">
+                                <a onclick="LoadNavLink('Search')" style="@searchCss">Search</a>
+                            </li>
+                            <li class="custom-nav">
+                                <a onclick="LoadNavLink('Groups')" style="@groupsCss">Groups</a>
+                            </li>
+                            <li class="custom-nav">
+                                <a onclick="LoadNavLink('Users')" style="@usersCss">Users</a>
+                            </li>
+                        }
+                        else if (User.IsInRole(UserRole.Employee.GetDisplayName()))
+                        {
+                            <li class="custom-nav">
+                                <a onclick="LoadNavLink('Fixtures')" style="@fixturesCss">Fixtures</a>
+                            </li>
+                            <li class="custom-nav">
+                                <a onclick="LoadNavLink('Settings')" style="@accSettingsCss">Settings</a>
+                            </li>
+                        }
+                        <li class="custom-nav">
+                            <a onclick="window.location='@Url.Action("Logout","Account")'">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -36,12 +108,13 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - GcwensaHrApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div style="width:fit-content; margin-left:auto; margin-right:auto">
+            © 2023 Gcwensa Telecoms. All Rights Reserved
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
