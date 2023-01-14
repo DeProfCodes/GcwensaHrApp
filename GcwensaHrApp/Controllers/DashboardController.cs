@@ -1,4 +1,5 @@
 ﻿using GcwensaHrApp.BusinessLogic;
+using GcwensaHrApp.Enums;
 using GcwensaHrApp.Models;
 using GcwensaHrApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -24,7 +25,7 @@ namespace GcwensaHrApp.Controllers
 
             _usersIO = usersIO;
             _leaveRequestIO = leaveRequestIO;
-                //_userManager.AddToRoleAsync(user, "admin");
+            //_userManager.AddToRoleAsync(user, "admin");
         }
 
         private string GetLoggedInEmail()
@@ -32,11 +33,18 @@ namespace GcwensaHrApp.Controllers
             return User.Identity.Name;
         }
 
+        public async Task<ApplicationUser> GetLoggedInUser()
+        {
+            var user = await _usersIO.GetUserByEmail(User.Identity.Name);
+
+            return user;
+        }
+
         //[Authorize(Roles = "Admin,User")]
 
         public async Task<IActionResult> Index()
         {
-            var user = await _usersIO.GetUserByEmail(GetLoggedInEmail());
+            var user = await GetLoggedInUser();
 
             var leaveRequests = await _leaveRequestIO.GetAllUserLeaveRequests(user.Id);
 
@@ -54,5 +62,23 @@ namespace GcwensaHrApp.Controllers
 
             return View(dashboardVm);
         }
+
+
+
+        #region ADMINS USERS
+        public async Task<IActionResult> UsersManagement()
+        {
+            var user = await GetLoggedInUser();
+            var authorized = await _userManager.IsInRoleAsync(user, UserRole.Admin.GetDisplayName());
+            if (authorized)
+            {
+                return RedirectToAction("UsersManagement", "UserDetails");
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        #endregion
     }
 }

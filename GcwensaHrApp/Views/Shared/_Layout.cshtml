@@ -16,13 +16,13 @@
 <body>
     @{
         var pageTitle = (string)ViewData["Title"];
-        var activeLinkClr = "color:aquamarine !important";
+        var activeLinkClr = "font-weight:bold";// "color:aquamarine !important";
 
         var dashboardCss = (pageTitle == "Dashboard" || pageTitle == "Admin Dashboard") ? activeLinkClr : "";
         var searchCss = (pageTitle == "Search" || pageTitle == "Fixtures List" || pageTitle == "Fixture Predictions") ? activeLinkClr : "";
         var accSettingsCss = pageTitle == "Account Settings" ? "color:aquamarine !important" : "";//
         var fixturesCss = (pageTitle == "Fxiture Group" || pageTitle == "Fixture Predictions") ? activeLinkClr : "";
-        var usersCss = (pageTitle == "UsersManagement" || pageTitle == "EditUser" || pageTitle == "CreateUser") ? activeLinkClr : "";
+        var usersCss = (pageTitle == "UsersManagement" || pageTitle == "EditUser" || pageTitle == "CreateUser" || pageTitle == "User Information") ? activeLinkClr : "";
         var groupsCss = (pageTitle == "Fxiture Group") ? activeLinkClr : "";
     }
     <header><!-- style="position:fixed; width:100%;top:0"> -->
@@ -113,6 +113,27 @@
             © 2023 Gcwensa Telecoms. All Rights Reserved
         </div>
     </footer>
+
+    <script>
+
+        function LoadNavLink(link)
+        {
+            var url = "";
+
+            if (link == 'Dashboard') url = '@Url.Action("Dashboard","Dashboard")';
+            if (link == 'Search') url = '@Url.Action("Index","SoccerAnalysis")';
+            if (link == 'Groups') url = '@Url.Action("FixturesGroupAnalysis", "SoccerAnalysis")?groupName=Group A';
+            if (link == 'Users') url = '@Url.Action("OpenUsersManagement","Dashboard")';
+            if (link == 'Fixtures') url = '@Url.Action("ViewTeamMemberFixtures","Dashboard")';
+            if (link == 'Settings') url = '@Url.Action("AccountSettings","Dashboard")';
+
+            $("#MainPageLoader").show();
+
+            window.location = url;
+        }
+
+    </script>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>

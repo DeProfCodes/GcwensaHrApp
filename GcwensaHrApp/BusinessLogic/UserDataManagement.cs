@@ -2,6 +2,7 @@
 using GcwensaHrApp.Enums;
 using GcwensaHrApp.Models;
 using GcwensaHrApp.ViewModels;
+using GcwensaHrApp.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -41,6 +42,8 @@ namespace GcwensaHrApp.BusinessLogic
 
             var dbUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
 
+            await _userManager.AddPasswordAsync(dbUser, "Default1!");
+
             await _userManager.AddToRoleAsync(dbUser, userViewModel.UserRole);
 
             return dbUser.Id;
@@ -54,7 +57,7 @@ namespace GcwensaHrApp.BusinessLogic
             await _userManager.AddToRoleAsync(user, newRole);
         }
 
-        public async Task EditUser(UserDetailsViewModel userViewModel)
+        public async Task<string> EditUser(UserDetailsViewModel userViewModel)
         {
             var dbUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
 
@@ -65,10 +68,14 @@ namespace GcwensaHrApp.BusinessLogic
             dbUser.Email = userViewModel.Email;
             dbUser.AccountStatus = userViewModel.AccountStatus;
 
+            var newPassword = "Default1!";
+
             _dbContext.Update(dbUser);
             await _dbContext.SaveChangesAsync();
 
             await UpdateUserRole(dbUser, userViewModel.UserRole);
+
+            return newPassword;
         }
 
         public async Task UpdateUserAccountStatus(string userId, AccountStatus accountStatus)

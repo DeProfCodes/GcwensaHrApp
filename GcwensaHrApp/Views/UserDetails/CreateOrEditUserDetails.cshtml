@@ -1,0 +1,26 @@
+﻿@model GcwensaHrApp.ViewModels.Account.CreateOrEditUserDetailsViewModel
+
+@{
+    ViewData["Title"] = "User Information";
+}
+
+
+<div id="PageContainer" style="width:auto">
+    <div class="row" id="PageFormContainer">
+        <h1 class="w-100 text-center fs-10">New User Login Information</h1>
+        <div class="w-100 text-center" style="margin-top:20px">
+            <div>
+                <p class="fs-4">Firstname : @Model.Firstname</p>
+            </div>
+            <div>
+                <p class="fs-4">Lastname : @Model.Lastname</p>
+            </div>
+            <div>
+                <label class="fs-4">Username : @Model.Username</label>
+            </div>
+            <div>
+                <label class="fs-4">New Password : <span style="font:Squared">@Model.Password</span></label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 ﻿using GcwensaHrApp.Enums;
 using GcwensaHrApp.Models;
 using GcwensaHrApp.ViewModels;
+using GcwensaHrApp.ViewModels.Account;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace GcwensaHrApp.BusinessLogic
 
         public Task<string> CreateUser(UserDetailsViewModel userViewModel);
 
-        public Task EditUser(UserDetailsViewModel userViewModel);
+        public Task<string> EditUser(UserDetailsViewModel userViewModel);
 
         public Task UpdateUserAccountStatus(string userId, AccountStatus accountStatus);
 

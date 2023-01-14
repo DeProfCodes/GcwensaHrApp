@@ -11,65 +11,62 @@
         <div class="w-100" style="margin-top:20px">
 
             <form asp-action="CreateUser">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger fs-4"></div>
                 <div class="form-group">
-                    <label asp-for="UserRole" class="control-label"></label>
+                    <label asp-for="UserRole" class="control-label fs-4"></label>
                     <select asp-for="UserRole" class="form-control txtBox-3 custom-Input-Box1 fs-4">
                         <option value="@UserRole.Employee.GetDisplayName()">@UserRole.Employee.GetDisplayName()</option>
                         <option value="@UserRole.HrUser.GetDisplayName()">@UserRole.HrUser.GetDisplayName()</option>
                         <option value="@UserRole.Admin.GetDisplayName()">@UserRole.Admin.GetDisplayName()</option>
                     </select>
-                    <span asp-validation-for="UserRole" class="text-danger"></span>
+                    <span asp-validation-for="UserRole" class="text-danger fs-4"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Firstname" class="control-label"></label>
+                    <label asp-for="Firstname" class="control-label fs-4"></label>
                     <input asp-for="Firstname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="Firstname" class="text-danger"></span>
+                    <span asp-validation-for="Firstname" class="text-danger fs-4"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Lastname" class="control-label"></label>
+                    <label asp-for="Lastname" class="control-label fs-4"></label>
                     <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                    <span asp-validation-for="Lastname" class="text-danger fs-4"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
+                    <label asp-for="Email" class="control-label fs-4"></label>
                     <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span asp-validation-for="Email" class="text-danger fs-4"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <label asp-for="PhoneNumber" class="control-label fs-4"></label>
                     <input asp-for="PhoneNumber" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    <span asp-validation-for="PhoneNumber" class="text-danger fs-4"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AccountStatus" class="control-label"></label>
+                    <label asp-for="AccountStatus" class="control-label fs-4"></label>
                     <select asp-for="AccountStatus" class="form-control txtBox-3 custom-Input-Box1 fs-4">
                         <option value="@AccountStatus.Active">@AccountStatus.Active.GetDisplayName()</option>
                         <option value="@AccountStatus.Suspended">@AccountStatus.Suspended.GetDisplayName()</option>
                         <option value="@AccountStatus.Deleted">@AccountStatus.Deleted.GetDisplayName()</option>
                         <option value="@AccountStatus.Paused">@AccountStatus.Paused.GetDisplayName()</option>
                     </select>
-                    <span asp-validation-for="AccountStatus" class="text-danger"></span>
+                    <span asp-validation-for="AccountStatus" class="text-danger fs-4"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="LeaveDaysAvailable" class="control-label"></label>
+                    <label asp-for="LeaveDaysAvailable" class="control-label fs-4"></label>
                     <input asp-for="LeaveDaysAvailable" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="LeaveDaysAvailable" class="text-danger"></span>
+                    <span asp-validation-for="LeaveDaysAvailable" class="text-danger fs-4"></span>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-success" />
+                <div class="form-group text-center">
+                    <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." onclick="ButtonLoader()" style="color:#005AEE;border-color:#005AEE">Submit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div style="margin-top:20px">
-    <a class="btn btn-secondary" asp-action="UsersManagement">Back</a>
-</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    }

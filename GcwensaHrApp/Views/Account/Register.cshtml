@@ -12,26 +12,26 @@
         <h1 class="w-100 text-center fs-10">Please Signup</h1>
         <div class="w-100" style="margin-top:20px">
             <section>
-                <form asp-action="Login" id="account" method="post" onsubmit="ButtonLoader()">
+                <form asp-action="Register" id="account" method="post" onsubmit="ButtonLoader()">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
+                    <div class="form-group" hidden>
                         <label class="fs-4">*Username</label>
                         <input asp-for="Username" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="USERNAME" />
                         <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="fs-4">*Firstname</label>
-                        <input asp-for="Firstname" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="USERNAME" />
+                        <input asp-for="Firstname" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="FIRSTNAME" />
                         <span asp-validation-for="Firstname" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="fs-4">*Lastname</label>
-                        <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="USERNAME" />
+                        <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="LASTNAME" />
                         <span asp-validation-for="Lastname" class="text-danger"></span>
                     </div
                     <di class="form-group">
                         <label class="fs-4">*Email</label>
-                        <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="USERNAME" />
+                        <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="EMAIL" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </di>
                     <div class="form-group">
@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <label class="fs-4">*Confirm Password</label>
                         <div style="display:flex">
-                            <input asp-for="ConfirmPassword" class="form-control txtBox-3 custom-Input-Box1 fs-4" id="PasswordConfirm" type="password" placeholder="PASSWORD" />
+                            <input asp-for="ConfirmPassword" class="form-control txtBox-3 custom-Input-Box1 fs-4" id="PasswordConfirm" type="password" placeholder="CONFIRM PASSWORD" />
                         </div>
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>

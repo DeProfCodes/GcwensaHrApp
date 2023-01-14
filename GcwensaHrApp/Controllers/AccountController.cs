@@ -43,23 +43,23 @@ namespace GcwensaHrApp.Controllers
             if (ModelState.IsValid)
             {
                 var returnUrl = Url.Content("~/");
-                var user = new ApplicationUser 
-                { 
+                var user = new ApplicationUser
+                {
                     Firstname = model.Firstname,
-                    Lastname = model.Lastname,   
+                    Lastname = model.Lastname,
                     PhoneNumber = model.PhoneNumber,
-                    UserName = model.Email, 
+                    UserName = model.Email,//model.Username, 
                     Email = model.Email,
                     AccountStatus = AccountStatus.Active
                 };
-                
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
                     await _userManager.RemoveFromRoleAsync(user, UserRole.Employee.GetDisplayName());
-                    await _userManager.AddToRoleAsync(user, UserRole.Employee.GetDisplayName());    
+                    await _userManager.AddToRoleAsync(user, UserRole.Employee.GetDisplayName());
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -80,7 +80,7 @@ namespace GcwensaHrApp.Controllers
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Dashboard", "Home");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                 }
                 foreach (var error in result.Errors)
@@ -91,7 +91,7 @@ namespace GcwensaHrApp.Controllers
             return View(model);
         }
 
-        [HttpGet]  
+        [HttpGet]
         public async Task<IActionResult> Login()
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -131,6 +131,12 @@ namespace GcwensaHrApp.Controllers
 
             // If we got this far, something failed, redisplay form
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account"); 
         }
     }
 }

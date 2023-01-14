@@ -5,9 +5,9 @@ namespace GcwensaHrApp.ViewModels.Account
 {
     public class RegisterViewModel
     {
-        [Required]
-        [StringLength(50, ErrorMessage = "Username can not be left blank.", MinimumLength = 1)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        //[Required]
+        //[StringLength(50, ErrorMessage = "Username can not be left blank.", MinimumLength = 1)]
+        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Username { get; set; }
 
         [Required]
@@ -18,10 +18,10 @@ namespace GcwensaHrApp.ViewModels.Account
         [StringLength(50, ErrorMessage = "Lastname can not be left blank.", MinimumLength = 1)]
         public string Lastname { get; set; }
 
-        [Required]
-        [Phone]
-        [RegularExpression("([0-9]+)", ErrorMessage = "Please enter valid cellphone number")]
-        [StringLength(10, ErrorMessage = "Phone number too short", MinimumLength = 10)]
+        //[Required]
+        //[Phone]
+        //[RegularExpression("([0-9]+)", ErrorMessage = "Please enter valid cellphone number")]
+        //[StringLength(10, ErrorMessage = "Phone number too short", MinimumLength = 10)]
         public string PhoneNumber { get; set; }
 
         [Required]

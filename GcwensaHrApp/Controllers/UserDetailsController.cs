@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Globalization;
+using GcwensaHrApp.ViewModels.Account;
 
 namespace GcwensaHrApp.Controllers
 {
@@ -98,12 +99,19 @@ namespace GcwensaHrApp.Controllers
             IDbContextTransaction transaction = _dbContext.Database.BeginTransaction();
             try
             {
-                await _usersIO.EditUser(userViewModel);
+                var userPassword = await _usersIO.EditUser(userViewModel);
                 await _leaveRequestIO.EditLeaveAvailable(userViewModel.Id, userViewModel.LeaveDaysAvailable);
 
                 transaction.Commit();
-
-                return RedirectToAction("UsersManagement", "UserDetails");
+                userViewModel.ResetPassword = true;
+                if (userViewModel.ResetPassword)
+                {
+                    return RedirectToAction("CreateOrEditUserDetails", "UserDetails", new { userId = userViewModel.Id, password = userPassword });
+                }
+                else
+                {
+                    return RedirectToAction("UsersManagement", "UserDetails");
+                }
             }
             catch (Exception e)
             {
@@ -111,6 +119,21 @@ namespace GcwensaHrApp.Controllers
 
                 return RedirectToAction("EditUser", "UserDetails", new { userId = userViewModel.Id });
             }
+        }
+
+        public async Task<IActionResult> CreateOrEditUserDetails(string userId, string password)
+        {
+            var user = await _usersIO.GetUserByUserId(userId);
+
+            var userInfoVm = new CreateOrEditUserDetailsViewModel
+            {
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                Username = user.UserName,
+                Password = password
+            };
+
+            return View(userInfoVm); 
         }
 
         public async Task<IActionResult> SuspendUser(string userId)
