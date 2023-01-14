@@ -6,9 +6,16 @@ namespace GcwensaHrApp.ViewModels.Account
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(50, ErrorMessage = "Username can not be left blank.", MinimumLength = 1)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "Firstname can not be left blank.", MinimumLength = 1)]
         public string Firstname { get; set; }
 
         [Required]
+        [StringLength(50, ErrorMessage = "Lastname can not be left blank.", MinimumLength = 1)]
         public string Lastname { get; set; }
 
         [Required]
@@ -20,6 +27,7 @@ namespace GcwensaHrApp.ViewModels.Account
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
+        [StringLength(50, ErrorMessage = "Email can not be left blank.", MinimumLength = 1)]
         public string Email { get; set; }
 
         [Required]
