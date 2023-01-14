@@ -94,5 +94,70 @@ namespace GcwensaHrApp.BusinessLogic
 
             return leaveRequests;
         }
+
+        public async Task CreateLeaveAvailable(string userId, double days)
+        {
+            var existing = await _dbContext.LeavesAvailable.FirstOrDefaultAsync(x=>x.UserId == userId);
+            if (existing == null)
+            {
+                var available = new LeaveAvailable
+                {
+                    UserId = userId,
+                    LeaveDaysAvailable = days
+                };
+                _dbContext.Add(available);
+            }
+            else
+            {
+                existing.LeaveDaysAvailable = days;
+                _dbContext.Update(existing);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task EditLeaveAvailable(string userId, double days)
+        {
+            var existing = await _dbContext.LeavesAvailable.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (existing != null)
+            {
+                existing.LeaveDaysAvailable = days;
+                _dbContext.Update(existing);
+                
+            }
+            else
+            {
+                var available = new LeaveAvailable
+                {
+                    UserId = userId,
+                    LeaveDaysAvailable = days
+                };
+                _dbContext.Add(available);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<LeaveAvailable>> GetAllLeavesAvailable()
+        {
+            var leavesDays = await _dbContext.LeavesAvailable.ToListAsync();
+
+            return leavesDays;
+        }
+
+        public async Task<LeaveAvailable> GetUserLeaveAvailable(string userId)
+        {
+            var userLeaveDays = await _dbContext.LeavesAvailable.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            return userLeaveDays;
+        }
+
+        public async Task DeleteLeaveAvailable(string userId)
+        {
+            var userLeaveDays = await _dbContext.LeavesAvailable.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (userLeaveDays != null)
+            {
+                _dbContext.Remove(userLeaveDays);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
     }
 }

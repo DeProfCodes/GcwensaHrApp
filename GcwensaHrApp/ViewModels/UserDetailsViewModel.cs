@@ -17,6 +17,8 @@ namespace GcwensaHrApp.ViewModels
 
         public string UserRole { get; set; }
 
+        public double LeaveDaysAvailable { get; set; }
+
         public AccountStatus AccountStatus { get; set; }
     }
 }

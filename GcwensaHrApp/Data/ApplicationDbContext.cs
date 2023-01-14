@@ -43,5 +43,7 @@ namespace GcwensaHrApp.Data
         public DbSet<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
+
+        public DbSet<LeaveAvailable> LeavesAvailable { get; set; }
     }
 }

@@ -16,9 +16,9 @@
             <div class="form-group">
                 <label asp-for="UserRole" class="control-label"></label>
                 <select asp-for="UserRole" class="form-control">
-                    <option value="@UserRole.Employee">@UserRole.Employee.GetDisplayName()</option>
-                    <option value="@UserRole.HrUser">@UserRole.HrUser.GetDisplayName()</option>
-                    <option value="@UserRole.Admin">@UserRole.Admin.GetDisplayName()</option>
+                    <option value="@UserRole.Employee.GetDisplayName()">@UserRole.Employee.GetDisplayName()</option>
+                    <option value="@UserRole.HrUser.GetDisplayName()">@UserRole.HrUser.GetDisplayName()</option>
+                    <option value="@UserRole.Admin.GetDisplayName()">@UserRole.Admin.GetDisplayName()</option>
                 </select>
                 <span asp-validation-for="UserRole" class="text-danger"></span>
             </div>
@@ -44,18 +44,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="AccountStatus" class="control-label"></label>
-                <select asp-for="AccountStatus" class="form-control"></select>
+                <select asp-for="AccountStatus" class="form-control">
+                    <option value="@AccountStatus.Active">@AccountStatus.Active.GetDisplayName()</option>
+                    <option value="@AccountStatus.Suspended">@AccountStatus.Suspended.GetDisplayName()</option>
+                    <option value="@AccountStatus.Deleted">@AccountStatus.Deleted.GetDisplayName()</option>
+                    <option value="@AccountStatus.Paused">@AccountStatus.Paused.GetDisplayName()</option>
+                </select>
                 <span asp-validation-for="AccountStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="LeaveDaysAvailable" class="control-label"></label>
+                <input asp-for="LeaveDaysAvailable" class="form-control" />
+                <span asp-validation-for="LeaveDaysAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a class="btn btn-primary" asp-action="UsersManagement">Back</a>
+<div style="margin-top:20px">
+    <a class="btn btn-secondary" asp-action="UsersManagement">Back</a>
 </div>
 
 @section Scripts {

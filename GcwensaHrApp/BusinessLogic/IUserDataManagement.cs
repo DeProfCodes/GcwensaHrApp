@@ -14,7 +14,7 @@ namespace GcwensaHrApp.BusinessLogic
 
         public Task<string> GetUserRole(string userId);
 
-        public Task CreateUser(UserDetailsViewModel userViewModel);
+        public Task<string> CreateUser(UserDetailsViewModel userViewModel);
 
         public Task EditUser(UserDetailsViewModel userViewModel);
 

@@ -11,6 +11,9 @@ using GcwensaHrApp.Enums;
 using Microsoft.EntityFrameworkCore.Storage;
 using GcwensaHrApp.Data;
 using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Globalization;
 
 namespace GcwensaHrApp.Controllers
 {
@@ -19,19 +22,30 @@ namespace GcwensaHrApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<UserDetailsController> _logger;
         private readonly IUserDataManagement _usersIO;
+        private readonly ILeaveRequestDataManagement _leaveRequestIO;
         private readonly ApplicationDbContext _dbContext;
 
-        public UserDetailsController(UserManager<ApplicationUser> userManager, ILogger<UserDetailsController> logger, IUserDataManagement usersIO, ApplicationDbContext dbContext)
+        public UserDetailsController(UserManager<ApplicationUser> userManager, ILogger<UserDetailsController> logger, IUserDataManagement usersIO, ILeaveRequestDataManagement leaveRequestIO, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _logger = logger;
             _usersIO = usersIO;
+            _leaveRequestIO = leaveRequestIO;
             _dbContext = dbContext;
         }
 
         public async Task<IActionResult> UsersManagement()
         {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
             var allUserDetails = await _usersIO.GetAllUsersDetails();
+            var allLeavesAvailable = await _leaveRequestIO.GetAllLeavesAvailable();
+
+            foreach (var user in allUserDetails)
+            { 
+                var leaveDays = allLeavesAvailable.FirstOrDefault(x => x.UserId == user.Id)?.LeaveDaysAvailable ?? 0;
+                user.LeaveDaysAvailable = leaveDays;
+            }
 
             var userManagementVm = new UserManagementViewModel
             {
@@ -44,7 +58,7 @@ namespace GcwensaHrApp.Controllers
         [HttpGet]
         public IActionResult CreateUser()
         {
-            return View(new UserManagementViewModel());
+            return View(new UserDetailsViewModel());
         }
 
         [HttpPost]
@@ -53,7 +67,8 @@ namespace GcwensaHrApp.Controllers
             IDbContextTransaction transaction = _dbContext.Database.BeginTransaction();
             try
             {
-                await _usersIO.CreateUser(userViewModel);
+                var userId = await _usersIO.CreateUser(userViewModel);
+                await _leaveRequestIO.CreateLeaveAvailable(userId, userViewModel.LeaveDaysAvailable);
 
                 transaction.Commit();
             }
@@ -69,8 +84,10 @@ namespace GcwensaHrApp.Controllers
         {
             var user = await _usersIO.GetUserByUserId(userId);
             var userRole = await _usersIO.GetUserRole(userId);
+            var userLeaveAvailable = await _leaveRequestIO.GetUserLeaveAvailable(userId);   
 
             var userDtailsVm = ViewModelHelper.CreateUserViewModel(user, userRole);
+            userDtailsVm.LeaveDaysAvailable = userLeaveAvailable?.LeaveDaysAvailable ?? 0;
 
             return View(userDtailsVm);
         }
@@ -82,7 +99,8 @@ namespace GcwensaHrApp.Controllers
             try
             {
                 await _usersIO.EditUser(userViewModel);
-                
+                await _leaveRequestIO.EditLeaveAvailable(userViewModel.Id, userViewModel.LeaveDaysAvailable);
+
                 transaction.Commit();
 
                 return RedirectToAction("UsersManagement", "UserDetails");

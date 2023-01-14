@@ -22,5 +22,15 @@ namespace GcwensaHrApp.BusinessLogic
 
         public Task DeleteLeaveRequest(int leaveId);
 
+        public Task CreateLeaveAvailable(string userId, double days);
+
+        public Task EditLeaveAvailable(string userId, double days);
+
+        public Task<List<LeaveAvailable>> GetAllLeavesAvailable();
+
+        public Task<LeaveAvailable> GetUserLeaveAvailable(string userId);
+
+        public Task DeleteLeaveAvailable(string userId);
+
     }
 }

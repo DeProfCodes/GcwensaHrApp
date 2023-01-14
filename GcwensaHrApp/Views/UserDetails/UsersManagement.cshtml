@@ -7,10 +7,10 @@
 
 
 
-<div class="container">
+<div id="UsersManagementPage">
 
-    <h1>UsersManagement</h1>
-    <p> <a asp-action="CreateUser">Create New</a> </p>
+    <h1>Users Management</h1>
+    <p> <a class="btn btn-success" asp-action="CreateUser">Create New</a> </p>
 
     <table class="table">
         <thead>
@@ -20,6 +20,7 @@
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>User Role</th>
+                <th>Leave Days Available</th>
                 <th>Account Status</th>
                 <th></th>
             </tr>
@@ -33,6 +34,7 @@
                     <td>@item.Email</td>
                     <td>@item.PhoneNumber</td>
                     <td>@item.UserRole</td>
+                    <td>@item.LeaveDaysAvailable</td>
                     <td>@item.AccountStatus</td>
                     <td>
                         <a asp-action="EditUser" asp-route-userId="@item.Id">Edit</a> |
