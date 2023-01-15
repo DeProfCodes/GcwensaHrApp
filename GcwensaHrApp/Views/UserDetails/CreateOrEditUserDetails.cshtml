@@ -4,22 +4,28 @@
     ViewData["Title"] = "User Information";
 }
 
-
-<div id="PageContainer" style="width:auto">
-    <div class="row" id="PageFormContainer">
-        <h1 class="w-100 text-center fs-10">New User Login Information</h1>
-        <div class="w-100 text-center" style="margin-top:20px">
-            <div>
-                <p class="fs-4">Firstname : @Model.Firstname</p>
-            </div>
-            <div>
-                <p class="fs-4">Lastname : @Model.Lastname</p>
-            </div>
-            <div>
-                <label class="fs-4">Username : @Model.Username</label>
-            </div>
-            <div>
-                <label class="fs-4">New Password : <span style="font:Squared">@Model.Password</span></label>
+<div class="w-100" id="UsersManagementPage">
+    <div class="row w-100" id="UsersManagementHeader">
+        <div>
+            <p class="fs-8 text-white">New <span class="font-weight-bold">User Details</span></p>
+        </div>
+        <div style="margin-left:auto">
+            <p> <a class="btn btn-sm" style="background: lightcyan;" asp-action="UsersManagement"><i class="fa fa-arrow-left" style="margin-right:5px"></i>Back</a> </p>
+        </div>
+    </div>
+    <div id="PageContainer" style="width:fit-content; padding-bottom: 30px;">
+        <div class="row" id="PageFormContainer">
+            <h1 class="w-100 text-center fs-10 heading-undeline">New User Login Information</h1>
+            <div class="w-100 text-center" style="margin-top:20px">
+                <div>
+                    <p class="fs-4">Name : @Model.Firstname @Model.Lastname</p>
+                </div>
+                <div>
+                    <label class="fs-4">Username : @Model.Username</label>
+                </div>
+                <div>
+                    <label class="fs-4">New Password : <span style="font-family:Squared">@Model.Password</span></label>
+                </div>
             </div>
         </div>
     </div>

@@ -15,6 +15,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Globalization;
 using GcwensaHrApp.ViewModels.Account;
+using Microsoft.AspNetCore.Http;
 
 namespace GcwensaHrApp.Controllers
 {
@@ -68,16 +69,20 @@ namespace GcwensaHrApp.Controllers
             IDbContextTransaction transaction = _dbContext.Database.BeginTransaction();
             try
             {
-                var userId = await _usersIO.CreateUser(userViewModel);
-                await _leaveRequestIO.CreateLeaveAvailable(userId, userViewModel.LeaveDaysAvailable);
+                var user = await _usersIO.CreateUser(userViewModel);
+                await _leaveRequestIO.CreateLeaveAvailable(user.Id, userViewModel.LeaveDaysAvailable);
+
+                HttpContext.Session.SetString("updatedUserId", user.Id);
+                HttpContext.Session.SetString("updatedUserPwd", user.Password);
 
                 transaction.Commit();
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
+                return RedirectToAction("UsersManagement", "UserDetails");
             }
-            return RedirectToAction("UsersManagement", "UserDetails");
+            return RedirectToAction("CreateOrEditUserDetails", "UserDetails");
         }
 
         [HttpGet]
@@ -102,11 +107,14 @@ namespace GcwensaHrApp.Controllers
                 var userPassword = await _usersIO.EditUser(userViewModel);
                 await _leaveRequestIO.EditLeaveAvailable(userViewModel.Id, userViewModel.LeaveDaysAvailable);
 
+                HttpContext.Session.SetString("updatedUserId", userViewModel.Id);
+                HttpContext.Session.SetString("updatedUserPwd", userPassword);
+
                 transaction.Commit();
-                userViewModel.ResetPassword = true;
+
                 if (userViewModel.ResetPassword)
                 {
-                    return RedirectToAction("CreateOrEditUserDetails", "UserDetails", new { userId = userViewModel.Id, password = userPassword });
+                    return RedirectToAction("CreateOrEditUserDetails", "UserDetails");
                 }
                 else
                 {
@@ -121,8 +129,11 @@ namespace GcwensaHrApp.Controllers
             }
         }
 
-        public async Task<IActionResult> CreateOrEditUserDetails(string userId, string password)
+        public async Task<IActionResult> CreateOrEditUserDetails()
         {
+            var userId = HttpContext.Session.GetString("updatedUserId");
+            var password = HttpContext.Session.GetString("updatedUserPwd");
+
             var user = await _usersIO.GetUserByUserId(userId);
 
             var userInfoVm = new CreateOrEditUserDetailsViewModel

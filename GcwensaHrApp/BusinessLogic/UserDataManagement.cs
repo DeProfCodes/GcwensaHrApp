@@ -25,7 +25,7 @@ namespace GcwensaHrApp.BusinessLogic
             _roleManager = roleManager;
         }
 
-        public async Task<string> CreateUser(UserDetailsViewModel userViewModel)
+        public async Task<UserDetailsViewModel> CreateUser(UserDetailsViewModel userViewModel)
         {
             var user = new ApplicationUser
             {
@@ -42,11 +42,15 @@ namespace GcwensaHrApp.BusinessLogic
 
             var dbUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
 
-            await _userManager.AddPasswordAsync(dbUser, "Default1!");
+            var newPassword = "Default1!";
+            await _userManager.AddPasswordAsync(dbUser, newPassword);
 
             await _userManager.AddToRoleAsync(dbUser, userViewModel.UserRole);
 
-            return dbUser.Id;
+            userViewModel.Id = dbUser.Id;
+            userViewModel.Password = newPassword;
+
+            return userViewModel;
         }
 
         private async Task UpdateUserRole(ApplicationUser user, string newRole)

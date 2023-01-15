@@ -5,67 +5,79 @@
     ViewData["Title"] = "EditUser";
 }
 
-<div id="PageContainer">
-    <div class="row" id="PageFormContainer">
-        <h1 class="w-100 text-center fs-10">Eidt User</h1>
-        <div class="w-100" style="margin-top:20px">
-            <form asp-action="EditUser">
-                <div asp-validation-summary="ModelOnly" class="text-danger fs-4"></div>
-                <input type="hidden" asp-for="Id" />
-                <div class="form-group">
-                    <label asp-for="UserRole" class="control-label fs-4"></label>
-                    <select asp-for="UserRole" class="form-control txtBox-3 custom-Input-Box1 fs-4">
-                        <option value="@UserRole.Employee.GetDisplayName()">@UserRole.Employee.GetDisplayName()</option>
-                        <option value="@UserRole.HrUser.GetDisplayName()">@UserRole.HrUser.GetDisplayName()</option>
-                        <option value="@UserRole.Admin.GetDisplayName()">@UserRole.Admin.GetDisplayName()</option>
-                    </select>
-                    <span asp-validation-for="UserRole" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Firstname" class="control-label fs-4"></label>
-                    <input asp-for="Firstname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="Firstname" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Lastname" class="control-label fs-4"></label>
-                    <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="Lastname" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label fs-4"></label>
-                    <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="Email" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhoneNumber" class="control-label fs-4"></label>
-                    <input asp-for="PhoneNumber" class="form-control txtBox-3 custom-Input-Box1 fs-4 txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AccountStatus" class="control-label fs-4"></label>
-                    <select asp-for="AccountStatus" class="form-control txtBox-3 custom-Input-Box1 fs-4">
-                        <option value="@AccountStatus.Active">@AccountStatus.Active.GetDisplayName()</option>
-                        <option value="@AccountStatus.Suspended">@AccountStatus.Suspended.GetDisplayName()</option>
-                        <option value="@AccountStatus.Deleted">@AccountStatus.Deleted.GetDisplayName()</option>
-                        <option value="@AccountStatus.Paused">@AccountStatus.Paused.GetDisplayName()</option>
-                    </select>
-                    <span asp-validation-for="AccountStatus" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LeaveDaysAvailable" class="control-label fs-4"></label>
-                    <input asp-for="LeaveDaysAvailable" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
-                    <span asp-validation-for="LeaveDaysAvailable" class="text-danger fs-4"></span>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." onclick="ButtonLoader()" style="color:#005AEE;border-color:#005AEE">Submit</button>
-                </div>
-            </form>
+<div class="w-100" id="UsersManagementPage">
+    <div class="row w-100" id="UsersManagementHeader">
+        <div>
+            <p class="fs-8 text-white">Edit <span class="font-weight-bold">User Details</span></p>
+        </div>
+        <div style="margin-left:auto">
+            <p> <a class="btn btn-sm" style="background: lightcyan;" asp-action="UsersManagement"><i class="fa fa-arrow-left" style="margin-right:5px"></i>Back</a> </p>
         </div>
     </div>
-</div>
-
-<div style="margin-top" 20px>
-    <a class="btn btn-primary" asp-action="UsersManagement">Back</a>
+    <div id="PageContainer">
+        <div class="row" id="PageFormContainer">
+            <h1 class="w-100 text-center fs-10 heading-undeline">Eidt User</h1>
+            <div class="w-100" style="margin-top:20px">
+                <form asp-action="EditUser">
+                    <div asp-validation-summary="ModelOnly" class="text-danger fs-4"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="UserRole" class="control-label fs-4"></label>
+                        <select asp-for="UserRole" class="form-control txtBox-3 custom-Input-Box1 fs-4">
+                            <option value="@UserRole.Employee.GetDisplayName()">@UserRole.Employee.GetDisplayName()</option>
+                            <option value="@UserRole.HrUser.GetDisplayName()">@UserRole.HrUser.GetDisplayName()</option>
+                            <option value="@UserRole.Admin.GetDisplayName()">@UserRole.Admin.GetDisplayName()</option>
+                        </select>
+                        <span asp-validation-for="UserRole" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Firstname" class="control-label fs-4"></label>
+                        <input asp-for="Firstname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="Firstname" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Lastname" class="control-label fs-4"></label>
+                        <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="Lastname" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label fs-4"></label>
+                        <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="Email" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="fs-4" asp-for="ResetPassword">
+                            <input asp-for="ResetPassword" class="brandColor" />
+                            @Html.DisplayNameFor(m => m.ResetPassword)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label fs-4"></label>
+                        <input asp-for="PhoneNumber" class="form-control txtBox-3 custom-Input-Box1 fs-4 txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AccountStatus" class="control-label fs-4"></label>
+                        <select asp-for="AccountStatus" class="form-control txtBox-3 custom-Input-Box1 fs-4">
+                            <option value="@AccountStatus.Active">@AccountStatus.Active.GetDisplayName()</option>
+                            <option value="@AccountStatus.Suspended">@AccountStatus.Suspended.GetDisplayName()</option>
+                            <option value="@AccountStatus.Deleted">@AccountStatus.Deleted.GetDisplayName()</option>
+                            <option value="@AccountStatus.Paused">@AccountStatus.Paused.GetDisplayName()</option>
+                        </select>
+                        <span asp-validation-for="AccountStatus" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LeaveDaysAvailable" class="control-label fs-4"></label>
+                        <input asp-for="LeaveDaysAvailable" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="LeaveDaysAvailable" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." onclick="ButtonLoader()" style="color:#005AEE;border-color:#005AEE">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

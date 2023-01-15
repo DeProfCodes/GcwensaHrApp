@@ -15,12 +15,18 @@ namespace GcwensaHrApp.ViewModels
 
         public string PhoneNumber { get; set; }
 
+        [Display(Name = "Role")]
         public string UserRole { get; set; }
 
+        [Display(Name = "Leave Days Available")]
         public double LeaveDaysAvailable { get; set; }
 
+        [Display(Name = "Reset Password")]
         public bool ResetPassword { get; set; }
 
+        [Display(Name = "Account Status")]
         public AccountStatus AccountStatus { get; set; }
+
+        public string Password { get; set; }
     }
 }

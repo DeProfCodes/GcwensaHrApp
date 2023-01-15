@@ -3,51 +3,56 @@
 
 @{
     ViewData["Title"] = "UsersManagement";
+
+    var count = 1;
+
+    var t = Model.UserDetails;
+    t.AddRange(t);
+    t.AddRange(t);
+    t.AddRange(t);
+    t.AddRange(t);
 }
 
 
 
-<div id="UsersManagementPage">
-
-    <h1>Users Management</h1>
-    <p> <a class="btn btn-success" asp-action="CreateUser">Create New</a> </p>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>User Role</th>
-                <th>Leave Days Available</th>
-                <th>Account Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.UserDetails)
-            {
+<div class="w-100" id="UsersManagementPage">
+    <div class="row w-100" id="UsersManagementHeader">
+        <div>
+            <p class="fs-8 text-white">Users <span class="font-weight-bold">Management</span></p>
+        </div>
+        <div style="margin-left:auto">
+            <p> <a class="btn btn-sm" style="background: lightcyan;" asp-action="CreateUser"><i class="fa fa-plus-circle" style="margin-right:5px"></i>Add New User</a> </p>
+        </div>
+    </div>
+    <div class="row w-100" style="margin-left:0;margin-right:0;padding:0 20px;max-height:66vh;overflow:auto;">
+        <table class="table table-hover table-striped fs-4">
+            <thead>
                 <tr>
-                    <td>@item.Firstname</td>
-                    <td>@item.Lastname</td>
-                    <td>@item.Email</td>
-                    <td>@item.PhoneNumber</td>
-                    <td>@item.UserRole</td>
-                    <td>@item.LeaveDaysAvailable</td>
-                    <td>@item.AccountStatus</td>
-                    <td>
-                        <a asp-action="EditUser" asp-route-userId="@item.Id">Edit</a> |
-                        <a asp-action="SuspendUser" asp-route-userId="@item.Id">Suspend User</a> |
-                        <a asp-action="DeleteUser" asp-route-userId="@item.Id">Delete User</a> |
-                        <a asp-action="SuperDeleteUser" asp-route-userId="@item.Id">Super Delete User</a>
-                    </td>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>User Role</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-
-    <div class="row">
-        <button class="btn btn-info" onclick="window.location='@Url.Action("Index","Dashboard")'" style="margin-left:15px">Dashboard</button>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UserDetails)
+                {
+                    <tr>
+                        <td>@count</td>
+                        <td>@item.Firstname @item.Lastname</td>
+                        <td>@item.Email</td>
+                        <td>@item.UserRole</td>
+                        <td>@item.AccountStatus</td>
+                        <td>
+                            <a asp-action="EditUser" asp-route-userId="@item.Id" class="btn btn-primary btn-sm fs-3"><i class="fa fa-cog fs-3" style="margin-right:6px;"></i>Edit</a> 
+                            <a asp-action="DeleteUser" asp-route-userId="@item.Id" class="btn btn-danger btn-sm fs-3"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Delete</a>
+                        </td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
     </div>
 </div>

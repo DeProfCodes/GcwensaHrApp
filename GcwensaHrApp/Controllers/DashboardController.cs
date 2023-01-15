@@ -5,6 +5,7 @@ using GcwensaHrApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GcwensaHrApp.Controllers
@@ -46,8 +47,18 @@ namespace GcwensaHrApp.Controllers
         {
             var user = await GetLoggedInUser();
 
-            var leaveRequests = await _leaveRequestIO.GetAllUserLeaveRequests(user.Id);
-
+            var leaveRequests = new List<LeaveRequest>();
+            var isAdminOrHR = await _userManager.IsInRoleAsync(user, UserRole.Admin.GetDisplayName());
+            
+            if (isAdminOrHR)
+            {
+                leaveRequests = await _leaveRequestIO.GetAllLeaveRequests();
+            }
+            else
+            {
+                leaveRequests = await _leaveRequestIO.GetAllUserLeaveRequests(user.Id);
+            }
+            
             var userVM = new UserDetailsViewModel
             {
                 Firstname = user?.Firstname ?? "No-1st-Name",
@@ -73,6 +84,20 @@ namespace GcwensaHrApp.Controllers
             if (authorized)
             {
                 return RedirectToAction("UsersManagement", "UserDetails");
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        public async Task<IActionResult> LeavesManagement()
+        {
+            var user = await GetLoggedInUser();
+            var authorized = await _userManager.IsInRoleAsync(user, UserRole.Admin.GetDisplayName());
+            if (authorized)
+            {
+                return RedirectToAction("Index", "Dashboard");
             }
             else
             {

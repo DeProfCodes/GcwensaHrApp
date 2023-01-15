@@ -5,51 +5,68 @@
     ViewData["Title"] = "EditLeaveRequest";
 }
 
-<h1>EditLeaveRequest</h1>
-
-<h4>LeaveRequestViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditLeaveRequest">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="LeaveId" />
-            <div class="form-group">
-                <label asp-for="LeaveType" class="control-label"></label>
-                <select asp-for="LeaveType" class="form-control">
-                    <option value="@LeaveType.Sick">@LeaveType.Sick.GetDisplayName()</option>
-                    <option value="@LeaveType.Maternity">@LeaveType.Maternity.GetDisplayName()</option>
-                    <option value="@LeaveType.FamilyResponsibility">@LeaveType.FamilyResponsibility.GetDisplayName()</option>
-                    <option value="@LeaveType.Other">@LeaveType.Other.GetDisplayName()</option>
-                </select>
-                <span asp-validation-for="LeaveType" class="text-danger"></span>
+<div class="w-100" id="UsersManagementPage">
+    <div class="row w-100" id="UsersManagementHeader">
+        <div>
+            <p class="fs-8 text-white">Edit <span class="font-weight-bold">Leave Request Details</span></p>
+        </div>
+        <div style="margin-left:auto">
+            <p> <a class="btn btn-sm action-link" style="background: lightcyan;" onclick="GoBack()"><i class="fa fa-arrow-left" style="margin-right:5px"></i>Back</a> </p>
+        </div>
+    </div>
+    <div id="PageContainer">
+        <div class="row" id="PageFormContainer">
+            <h1 class="w-100 text-center fs-10 heading-undeline">Update Leave Details</h1>
+            <div class="w-100" style="margin-top:20px">
+                <form asp-action="EditLeaveRequest">
+                    <div asp-validation-summary="ModelOnly" class="text-danger fs-4"></div>
+                    <input type="hidden" asp-for="LeaveId" />
+                    <div class="form-group">
+                        <label asp-for="LeaveType" class="control-label fs-4"></label>
+                        <select asp-for="LeaveType" class="form-control txtBox-3 custom-Input-Box1 fs-4">
+                            <option value="@LeaveType.Sick">@LeaveType.Sick.GetDisplayName()</option>
+                            <option value="@LeaveType.Maternity">@LeaveType.Maternity.GetDisplayName()</option>
+                            <option value="@LeaveType.FamilyResponsibility">@LeaveType.FamilyResponsibility.GetDisplayName()</option>
+                            <option value="@LeaveType.Other">@LeaveType.Other.GetDisplayName()</option>
+                        </select>
+                        <span asp-validation-for="LeaveType" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LeaveStartDate" class="control-label fs-4"></label>
+                        <input asp-for="LeaveStartDate" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="LeaveStartDate" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LeaveEndDate" class="control-label fs-4"></label>
+                        <input asp-for="LeaveEndDate" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="LeaveEndDate" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LeaveReason" class="control-label fs-4"></label>
+                        <input asp-for="LeaveReason" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="LeaveReason" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." onclick="ButtonLoader()" style="color:#005AEE;border-color:#005AEE">Update Leave</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="LeaveStartDate" class="control-label"></label>
-                <input asp-for="LeaveStartDate" class="form-control" />
-                <span asp-validation-for="LeaveStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveEndDate" class="control-label"></label>
-                <input asp-for="LeaveEndDate" class="form-control" />
-                <span asp-validation-for="LeaveEndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveReason" class="control-label"></label>
-                <input asp-for="LeaveReason" class="form-control" />
-                <span asp-validation-for="LeaveReason" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+<script>
+
+    function GoBack()
+    {
+        var url = '@Url.Action("Index","Dashboard")';
+        window.location = url;
+    }
+
+</script>

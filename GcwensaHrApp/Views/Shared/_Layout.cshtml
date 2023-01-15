@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GcwensaHrApp</title>
+    <title>@ViewData["Title"] - Gcwensa Telecoms</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/responsiveFonts.css" />
@@ -79,7 +79,7 @@
                                 <a onclick="LoadNavLink('Search')" style="@searchCss">Search</a>
                             </li>
                             <li class="custom-nav">
-                                <a onclick="LoadNavLink('Groups')" style="@groupsCss">Groups</a>
+                                <a onclick="LoadNavLink('Leaves')" style="@groupsCss">Leaves</a>
                             </li>
                             <li class="custom-nav">
                                 <a onclick="LoadNavLink('Users')" style="@usersCss">Users</a>
@@ -102,7 +102,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div style="width: 80%;margin-left: auto;margin-right: auto;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -120,10 +120,10 @@
         {
             var url = "";
 
-            if (link == 'Dashboard') url = '@Url.Action("Dashboard","Dashboard")';
+            if (link == 'Dashboard') url = '@Url.Action("Index","Dashboard")';
             if (link == 'Search') url = '@Url.Action("Index","SoccerAnalysis")';
-            if (link == 'Groups') url = '@Url.Action("FixturesGroupAnalysis", "SoccerAnalysis")?groupName=Group A';
-            if (link == 'Users') url = '@Url.Action("OpenUsersManagement","Dashboard")';
+            if (link == 'Leaves') url = '@Url.Action("LeavesManagement", "Dashboard")?groupName=Group A';
+            if (link == 'Users') url = '@Url.Action("UsersManagement","Dashboard")';
             if (link == 'Fixtures') url = '@Url.Action("ViewTeamMemberFixtures","Dashboard")';
             if (link == 'Settings') url = '@Url.Action("AccountSettings","Dashboard")';
 
