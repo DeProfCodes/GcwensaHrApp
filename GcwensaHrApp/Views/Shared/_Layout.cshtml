@@ -76,20 +76,11 @@
                         @if (User.IsInRole(UserRole.Admin.GetDisplayName()))
                         {
                             <li class="custom-nav">
-                                <a onclick="LoadNavLink('Search')" style="@searchCss">Search</a>
-                            </li>
-                            <li class="custom-nav">
-                                <a onclick="LoadNavLink('Leaves')" style="@groupsCss">Leaves</a>
-                            </li>
-                            <li class="custom-nav">
                                 <a onclick="LoadNavLink('Users')" style="@usersCss">Users</a>
                             </li>
                         }
                         else if (User.IsInRole(UserRole.Employee.GetDisplayName()))
                         {
-                            <li class="custom-nav">
-                                <a onclick="LoadNavLink('Fixtures')" style="@fixturesCss">Fixtures</a>
-                            </li>
                             <li class="custom-nav">
                                 <a onclick="LoadNavLink('Settings')" style="@accSettingsCss">Settings</a>
                             </li>
