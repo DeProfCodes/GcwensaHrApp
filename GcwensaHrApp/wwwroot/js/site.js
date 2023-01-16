@@ -13,7 +13,7 @@ function SubmitWithSweetAlert(url, data, successText, postUrl)
       data: data,  
       beforeSend: function ()
       {
-    
+            
       },
       error: function (xhr, ajaxOptions, thrownError)
       {

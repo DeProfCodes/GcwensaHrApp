@@ -74,6 +74,40 @@ namespace GcwensaHrApp.BusinessLogic
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task SuperDeleteLeaveRequest(int leaveId)
+        {
+            var leaveReq = await GetLeaveRequestById(leaveId);
+
+            _dbContext.Remove(leaveReq);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task RejectLeaveRequest(int leaveId)
+        {
+            var leaveReq = await GetLeaveRequestById(leaveId);
+
+            leaveReq.LeaveStatus = LeaveStatus.Rejected;
+
+            _dbContext.Update(leaveReq);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task ApproveLeaveRequest(int leaveId)
+        {
+            var leaveReq = await GetLeaveRequestById(leaveId);
+
+            var leaveAvailable = await GetUserLeaveAvailable(leaveReq.UserId);
+
+            leaveAvailable.LeaveDaysAvailable -= leaveReq.LeaveDaysDuration; 
+
+            leaveReq.LeaveStatus = LeaveStatus.Approved;
+
+            _dbContext.Update(leaveReq);
+            _dbContext.Update(leaveAvailable);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<List<LeaveRequest>> GetAllLeaveRequests()
         {
             var allLeaveRequests = await _dbContext.LeaveRequests.ToListAsync();

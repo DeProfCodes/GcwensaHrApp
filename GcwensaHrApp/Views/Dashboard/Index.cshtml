@@ -8,12 +8,14 @@
     if (User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
     {
         var t = Model.LeaveRequests;
+        /*
         t.AddRange(t);
         t.AddRange(t);
         t.AddRange(t);
         t.AddRange(t);
         t.AddRange(t);
         t.AddRange(t);
+        */
     }
 }
 
@@ -97,9 +99,21 @@
                             }
                             <td>@leaveReq.LeaveReason</td>
                             <td>@leaveReq.LeaveStatus.GetDisplayName()</td>
-                            <td class="text-white">
-                                <a class="btn btn-primary btn-sm fs-3 action-link" onclick="LeaveRequestActions('edit','@leaveReq.LeaveId')"><i class="fa fa-cog fs-3" style="margin-right:6px;"></i>Edit</a>
-                                <a onclick="LeaveRequestActions('cancel','@leaveReq.LeaveId')" class="btn btn-danger btn-sm fs-3 action-link"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Delete</a>
+                            <td class="text-white">                                
+                                @if (leaveReq.LeaveStatus == LeaveStatus.Pending && (User.IsInRole(UserRole.Employee.GetDisplayName()) || User.IsInRole(UserRole.Admin.GetDisplayName())))
+                                {
+                                    <a class="btn btn-primary btn-sm fs-3 action-link" onclick="LeaveRequestActions('edit','@leaveReq.LeaveId')"><i class="fa fa-cog fs-3" style="margin-right:6px;"></i>Edit</a>
+                                    <a onclick="LeaveRequestActions('cancel','@leaveReq.LeaveId')" class="btn btn-secondary btn-sm fs-3 action-link"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Cancel</a>
+                                }
+                                else if (leaveReq.LeaveStatus == LeaveStatus.Cancelled && User.IsInRole(UserRole.Admin.GetDisplayName()))
+                                {
+                                    <a onclick="LeaveRequestActions('delete','@leaveReq.LeaveId')" class="btn btn-danger btn-sm fs-3 action-link"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Delete</a>
+                                }
+                                @if (leaveReq.LeaveStatus == LeaveStatus.Pending && (User.IsInRole(UserRole.HrUser.GetDisplayName()) || User.IsInRole(UserRole.Admin.GetDisplayName())))
+                                {
+                                    <a onclick="LeaveRequestActions('reject','@leaveReq.LeaveId')" class="btn btn-danger btn-sm fs-3 action-link"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Reject</a>
+                                    <a onclick="LeaveRequestActions('approve','@leaveReq.LeaveId')" class="btn btn-success btn-sm fs-3 action-link"><i class="fa fa-check-circle fs-3" style="margin-right:6px; "></i>Approve</a>
+                                }
                             </td>
                         </tr>
                         count++;
@@ -134,6 +148,27 @@
             console.log('pre-url : ' + url);
             var postUrl = '@Url.Action("Index","Dashboard")';
             PromptWithSweetAlert(url, 'Cancel Leave Request', 'Are you sure you want to cancel leave request', 'warning', 'get', 'Leave successfully cancelled', postUrl);
+        }
+        if (type == "delete") 
+        {
+            url = '@Url.Action("SuperDeleteLeaveRequest","LeaveRequests")?leaveId=' + id;
+            console.log('pre-url : ' + url);
+            var postUrl = '@Url.Action("Index","Dashboard")';
+            PromptWithSweetAlert(url, 'Delete Leave Request', 'Are you sure you want to delete leave request', 'warning', 'get', 'Leave successfully deleted', postUrl);
+        }
+        if (type == "reject") 
+        {
+            url = '@Url.Action("RejectLeaveRequest","LeaveRequests")?leaveId=' + id;
+            console.log('pre-url : ' + url);
+            var postUrl = '@Url.Action("Index","Dashboard")';
+            PromptWithSweetAlert(url, 'Delete Leave Request', 'Are you sure you want to delete leave request', 'warning', 'get', 'Leave successfully deleted', postUrl);
+        }
+        if (type == "approve") 
+        {
+            url = '@Url.Action("ApproveLeaveRequest","LeaveRequests")?leaveId=' + id;
+            console.log('pre-url : ' + url);
+            var postUrl = '@Url.Action("Index","Dashboard")';
+            PromptWithSweetAlert(url, 'Delete Leave Request', 'Are you sure you want to delete leave request', 'warning', 'get', 'Leave successfully deleted', postUrl);
         }
     }
 

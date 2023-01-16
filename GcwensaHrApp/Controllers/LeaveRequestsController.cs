@@ -60,8 +60,8 @@ namespace GcwensaHrApp.Controllers
             
             await _leaveRequestIO.CreateLeaveRequest(user.Id, leaveRequest);
 
-            //return RedirectToAction("Index", "Dashboard");
-            return Ok();
+            return RedirectToAction("Index", "Dashboard");
+            //return Json(new { data = "successed" });
         }
 
         [HttpGet]
@@ -103,6 +103,14 @@ namespace GcwensaHrApp.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+
+        public async Task<IActionResult> SuperDeleteLeaveRequest(int leaveId)
+        {
+            await _leaveRequestIO.SuperDeleteLeaveRequest(leaveId);
+
+            return Ok();
+            //return RedirectToAction("Index", "Dashboard");
+        }
         #endregion
 
         #region HR Leaves Management
@@ -116,6 +124,21 @@ namespace GcwensaHrApp.Controllers
             return View();
         }
 
+        public async Task<IActionResult> RejectLeaveRequest(int leaveId)
+        {
+            await _leaveRequestIO.RejectLeaveRequest(leaveId);
+
+            return Ok();
+            //return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<IActionResult> ApproveLeaveRequest(int leaveId)
+        {
+            await _leaveRequestIO.ApproveLeaveRequest(leaveId);
+
+            return Ok();
+            //return RedirectToAction("Index", "Dashboard");
+        }
         #endregion
 
 

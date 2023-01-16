@@ -63,7 +63,7 @@ namespace GcwensaHrApp.BusinessLogic
 
         public async Task<string> EditUser(UserDetailsViewModel userViewModel)
         {
-            var dbUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == userViewModel.Email);
+            var dbUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userViewModel.Id);
 
             dbUser.Firstname = userViewModel.Firstname;
             dbUser.Lastname = userViewModel.Lastname;

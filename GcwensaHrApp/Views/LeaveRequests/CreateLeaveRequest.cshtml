@@ -48,7 +48,7 @@
                         <span asp-validation-for="LeaveReason" class="text-danger fs-4"></span>
                     </div>
                     <div class="form-group text-center">
-                        <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." onclick="CreateLeaveReq()" style="color:#005AEE;border-color:#005AEE">Create Leave</button>
+                        <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." style="color:#005AEE;border-color:#005AEE">Create Leave</button>
                     </div>
                 </form>
             </div>
@@ -70,7 +70,7 @@
         window.location = url;
     }
     
-    function CreateLeaveReq()()
+    function CreateLeaveReq()
     {
         var url = '@Url.Action("CreateLeaveRequest", "LeaveRequests")';
         var postUrl = '@Url.Action("Index","Dashboard")';
