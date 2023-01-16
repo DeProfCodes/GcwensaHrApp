@@ -12,15 +12,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 </head>
-<body>
+<body onbeforeunload="BClose()" onclick="clicked=true;">
     @{
+        var isLoggedIn = User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()) ||
+                         User.IsInRole(UserRole.Employee.GetDisplayName());
+
+        var navVisible = !isLoggedIn ? "hidden" : "";
+
         var pageTitle = (string)ViewData["Title"];
         var activeLinkClr = "font-weight:bold";// "color:aquamarine !important";
 
         var dashboardCss = (pageTitle == "Dashboard" || pageTitle == "Admin Dashboard") ? activeLinkClr : "";
         var searchCss = (pageTitle == "Search" || pageTitle == "Fixtures List" || pageTitle == "Fixture Predictions") ? activeLinkClr : "";
-        var accSettingsCss = pageTitle == "Account Settings" ? "color:aquamarine !important" : "";//
+        var accSettingsCss = pageTitle == "Account Settings" ? activeLinkClr : "";//
         var fixturesCss = (pageTitle == "Fxiture Group" || pageTitle == "Fixture Predictions") ? activeLinkClr : "";
         var usersCss = (pageTitle == "UsersManagement" || pageTitle == "EditUser" || pageTitle == "CreateUser" || pageTitle == "User Information") ? activeLinkClr : "";
         var groupsCss = (pageTitle == "Fxiture Group") ? activeLinkClr : "";
@@ -61,7 +68,7 @@
             </ul>
 
         </div>
-        <nav id="menuNav" class="navbar border-bottom box-shadow mb-3">
+        <nav id="menuNav" class="navbar border-bottom box-shadow mb-3 @navVisible">
             <div class="w-100" style="display:flex">
                 <div style="display:flex; position:absolute; cursor:pointer" onclick="window.location='@Url.Action("Dashboard","Dashboard")'">
                     <div class="navbar-brand" id="DashboardLogoContainer">
@@ -71,15 +78,15 @@
                 <div class="w-100 fs-4" style="min-width:480px">
                     <ul class="custom-nav-ul" style="margin-left: auto;width: fit-content;">
                         <li class="custom-nav">
-                            <a onclick="LoadNavLink('Dashboard')" style="@dashboardCss">Dashboard</a>
+                                <a onclick="LoadNavLink('Dashboard')" style="@dashboardCss">Dashboard</a>
                         </li>
-                        @if (User.IsInRole(UserRole.Admin.GetDisplayName()))
+                        @if (User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
                         {
                             <li class="custom-nav">
                                 <a onclick="LoadNavLink('Users')" style="@usersCss">Users</a>
                             </li>
                         }
-                        else if (User.IsInRole(UserRole.Employee.GetDisplayName()))
+                        else if (User.IsInRole(UserRole.HrUser.GetDisplayName()) || User.IsInRole(UserRole.Employee.GetDisplayName()))
                         {
                             <li class="custom-nav">
                                 <a onclick="LoadNavLink('Settings')" style="@accSettingsCss">Settings</a>
@@ -116,12 +123,18 @@
             if (link == 'Leaves') url = '@Url.Action("LeavesManagement", "Dashboard")?groupName=Group A';
             if (link == 'Users') url = '@Url.Action("UsersManagement","Dashboard")';
             if (link == 'Fixtures') url = '@Url.Action("ViewTeamMemberFixtures","Dashboard")';
-            if (link == 'Settings') url = '@Url.Action("AccountSettings","Dashboard")';
+            if (link == 'Settings') url = '@Url.Action("AccountSettings","Account")';
 
             $("#MainPageLoader").show();
 
             window.location = url;
         }
+
+        window.onbeforeunload = function BClose() 
+        {
+            var url = '@Url.Action("Logout","Account")';
+            window.location = url;
+        };
 
     </script>
 
@@ -129,6 +142,9 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

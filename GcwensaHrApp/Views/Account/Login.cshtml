@@ -9,7 +9,10 @@
 
 <div id="PageContainer">
     <div class="row" id="PageFormContainer">
-        <h1 class="w-100 text-center fs-10">Please Login</h1>
+        <div class="text-center w-100">
+            <img src="img/logo.png" id="LoginLogo" />
+        </div>
+        <h1 class="w-100 text-center fs-10" style="margin-top: 30px;">Please Login</h1>
         <div class="w-100" style="margin-top:20px">
             <section>
                 <form asp-action="Login" id="account" method="post" onsubmit="ButtonLoader()">
@@ -65,23 +68,29 @@
 
     <script>
 
-        $(document).ready(function() {
+        $(document).ready(function() 
+        {
             //location.reload();
+            $("#menuNav").hide();
             $("#MainPageLoader").hide();
         });
 
-        $(".toggle-password").click(function() {
+        $(".toggle-password").click(function() 
+        {
             $(this).toggleClass("fa-eye fa-eye-slash");
             var input = $($(this).attr("toggle"));
-            if (input.attr("type") == "password") {
+            if (input.attr("type") == "password") 
+            {
                 input.attr("type", "text");
             }
-            else {
+            else 
+            {
                 input.attr("type", "password");
             }
         });
 
-        function LoginLoader() {
+        function LoginLoader() 
+        {
             $("#MainPageLoader").show();
         }
 

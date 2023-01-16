@@ -77,7 +77,21 @@ namespace GcwensaHrApp.BusinessLogic
             _dbContext.Update(dbUser);
             await _dbContext.SaveChangesAsync();
 
-            await UpdateUserRole(dbUser, userViewModel.UserRole);
+            if (!string.IsNullOrEmpty(userViewModel.Password))
+            {
+                await _userManager.RemovePasswordAsync(dbUser);
+                var res = await _userManager.AddPasswordAsync(dbUser, userViewModel.Password);
+
+                if (!res.Succeeded)
+                {
+                    throw new Exception("password change failed: " + string.Join(",", res.Errors));
+                }
+            }
+
+            if (!string.IsNullOrEmpty(userViewModel.UserRole))
+            {
+                await UpdateUserRole(dbUser, userViewModel.UserRole);
+            }
 
             return newPassword;
         }
@@ -95,7 +109,7 @@ namespace GcwensaHrApp.BusinessLogic
         public async Task<ApplicationUser> GetUserByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            
+
             return user;
         }
 
@@ -106,7 +120,15 @@ namespace GcwensaHrApp.BusinessLogic
             return user;
         }
 
-        public async Task<string> GetUserRole(string userId)
+        public async Task<List<ApplicationUser>> GetAllUsers()
+        {
+            var allUsers = await _dbContext.Users.ToListAsync();
+
+            return allUsers;
+        }
+
+
+    public async Task<string> GetUserRole(string userId)
         {
             var allRoles = await _roleManager.Roles.ToListAsync();
 

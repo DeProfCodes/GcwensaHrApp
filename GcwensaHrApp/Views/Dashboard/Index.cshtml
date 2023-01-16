@@ -5,78 +5,147 @@
     ViewData["Title"] = "Dashboard";
     var count = 1;
 
-    var t = Model.LeaveRequests;
-    t.AddRange(t);
-    t.AddRange(t);
-    t.AddRange(t);
-    t.AddRange(t);
-    t.AddRange(t);
-    t.AddRange(t);
+    if (User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
+    {
+        var t = Model.LeaveRequests;
+        t.AddRange(t);
+        t.AddRange(t);
+        t.AddRange(t);
+        t.AddRange(t);
+        t.AddRange(t);
+        t.AddRange(t);
+    }
 }
 
-<div class="w-100" id="UsersManagementPage">
+<div class="w-100 fs-5" style="display:flex;padding-left:20px;margin-top: 30px;">
+    <div style="width: 25%">
+        <span>Name : </span>
+        <span class="font-weight-bold">@Model.UserDetails.Firstname @Model.UserDetails.Lastname</span>
+    </div>
+    <div style="width: 25%">
+        <span>Email : </span>
+        <span class="font-weight-bold">@Model.UserDetails.Email</span>
+    </div>
+    <div style="width: 25%">
+        @if (User.IsInRole(UserRole.Employee.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
+        {
+            <span>Leave Available: </span>
+            <span class="font-weight-bold">@Model.UserDetails.LeaveDaysAvailable days</span>
+        }
+    </div>
+</div>
+
+<div class="w-100" id="UsersManagementPage" style="margin-top: 20px;">
     <div class="row w-100" id="UsersManagementHeader">
         <div>
-            <p class="fs-8 text-white">Leaves <span class="font-weight-bold">Management</span></p>
+            @if (User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
+            {
+                <p class="fs-8 text-white">Leaves <span class="font-weight-bold">Management</span></p>
+            }
+            else if (User.IsInRole(UserRole.Employee.GetDisplayName()))
+            {
+                <p class="fs-8 text-white">Manage <span class="font-weight-bold">Your Leaves</span></p>
+            }
         </div>
         <div style="margin-left:auto">
-            <p> <a class="btn btn-sm action-link" style="background: lightcyan;" onclick="CreateLeaveRequest()"><i class="fa fa-plus-circle" style="margin-right:5px"></i>Create Leave Request</a> </p>
+            <p>
+                <a class="btn btn-sm action-link" style="background: lightcyan;" onclick="TestSendGrid()" hidden><i class="fa fa-envelope" style="margin-right:5px"></i>Test SendGrid</a>
+                <a class="btn btn-sm action-link" style="background: lightcyan; margin-left:15px" onclick="CreateLeaveRequest()"><i class="fa fa-plus-circle" style="margin-right:5px"></i>Create Leave Request</a>
+            </p>
         </div>
     </div>
-    <div class="row w-100" style="margin-left:0;margin-right:0;padding:0 20px;max-height:66vh;overflow:auto;">
-        <table class="table table-hover table-striped fs-4">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Create Date</th>
-                    <th>Leave Type</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Duration</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var leaveReq in Model.LeaveRequests)
-                {
+    <div class="row w-100" style="margin-left:0;margin-right:0;padding:0 20px;max-height:62vh;overflow:auto;">
+        @if (Model.LeaveRequests.Count > 0)
+        {
+            <table class="table table-hover table-striped fs-4">
+                <thead>
                     <tr>
-                        <td class="font-weight-bold">@count</td>
-                        <td>@leaveReq.CreateTime.ToString("dd-MM-yyyy")</td>
-                        <td>@leaveReq.LeaveType.GetDisplayName() Leave</td>
-                        <td>@leaveReq.LeaveStartDate.ToString("dd-MM-yyyy")</td>
-                        <td>@leaveReq.LeaveEndDate.ToString("dd-MM-yyyy")</td>
-                        <td>@leaveReq.LeaveDaysDuration</td>
-                        <td>@leaveReq.LeaveReason</td>
-                        <td>@leaveReq.LeaveStatus.GetDisplayName()</td>
-                        <td class="text-white">
-                            <a class="btn btn-primary btn-sm fs-3 action-link" onclick="LeaveRequestActions('edit','@leaveReq.Id')"><i class="fa fa-cog fs-3" style="margin-right:6px;"></i>Edit</a> 
-                            <a onclick="LeaveRequestActions('cancel','@leaveReq.Id')" class="btn btn-danger btn-sm fs-3 action-link"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Delete</a>
-                        </td>
+                        <th>#</th>
+                        @if (User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
+                        {
+                            <th>Employee</th>
+                        }
+                        <th>Create Date</th>
+                        <th>Leave Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        @if (User.IsInRole(UserRole.Employee.GetDisplayName()))
+                        {
+                            <th>Duration</th>
+                        }
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
-                    count++;
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var leaveReq in Model.LeaveRequests)
+                    {
+                        <tr>
+                            <td class="font-weight-bold">@count</td>
+                            @if (User.IsInRole(UserRole.Admin.GetDisplayName()) || User.IsInRole(UserRole.HrUser.GetDisplayName()))
+                            {
+                                <td>@leaveReq.LeaveRequestOwner</td>
+                            }
+                            <td>@leaveReq.CreateTime.ToString("dd-MM-yyyy")</td>
+                            <td>@leaveReq.LeaveType.GetDisplayName() Leave</td>
+                            <td>@leaveReq.LeaveStartDate.ToString("dd-MM-yyyy")</td>
+                            <td>@leaveReq.LeaveEndDate.ToString("dd-MM-yyyy")</td>
+                            @if (User.IsInRole(UserRole.Employee.GetDisplayName()))
+                            {
+                                <td>@leaveReq.LeaveDaysDuration days</td>
+                            }
+                            <td>@leaveReq.LeaveReason</td>
+                            <td>@leaveReq.LeaveStatus.GetDisplayName()</td>
+                            <td class="text-white">
+                                <a class="btn btn-primary btn-sm fs-3 action-link" onclick="LeaveRequestActions('edit','@leaveReq.LeaveId')"><i class="fa fa-cog fs-3" style="margin-right:6px;"></i>Edit</a>
+                                <a onclick="LeaveRequestActions('cancel','@leaveReq.LeaveId')" class="btn btn-danger btn-sm fs-3 action-link"><i class="fa fa-times-circle fs-3" style="margin-right:6px; "></i>Delete</a>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="text-center w-100" style="padding-top:20px">
+                <p class="font-italic">No leaves records</p>
+            </div>
+        }
     </div>
 </div>
 
 <script>
 
-    function LeaveRequestActions(type, id)
+    function LeaveRequestActions(type, id) 
     {
         var url = "";
-        
-        if (type == "edit") url = '@Url.Action("EditLeaveRequest","LeaveRequests")?leaveId=' + id;
-        if (type == "cancel") url = '@Url.Action("CancelLeaveRequest","LeaveRequests")?leaveId' + id;
 
-        window.location = url;
+        if (type == "edit") 
+        {
+            url = '@Url.Action("EditLeaveRequest","LeaveRequests")?leaveId=' + id;
+            window.location = url;
+        }
+        if (type == "cancel") 
+        {
+            
+            url = '@Url.Action("CancelLeaveRequest","LeaveRequests")?leaveId=' + id;
+            console.log('pre-url : ' + url);
+            var postUrl = '@Url.Action("Index","Dashboard")';
+            PromptWithSweetAlert(url, 'Cancel Leave Request', 'Are you sure you want to cancel leave request', 'warning', 'get', 'Leave successfully cancelled', postUrl);
+        }
     }
 
     function CreateLeaveRequest() 
     {
         var url = '@Url.Action("CreateLeaveRequest","LeaveRequests")';
+        window.location = url;
+    }
+
+    function TestSendGrid() 
+    {
+        var url = '@Url.Action("SendGrid","Dashboard")';
         window.location = url;
     }
 

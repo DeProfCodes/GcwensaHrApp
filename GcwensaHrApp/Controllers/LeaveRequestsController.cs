@@ -60,7 +60,8 @@ namespace GcwensaHrApp.Controllers
             
             await _leaveRequestIO.CreateLeaveRequest(user.Id, leaveRequest);
 
-            return RedirectToAction("Index", "Dashboard");
+            //return RedirectToAction("Index", "Dashboard");
+            return Ok();
         }
 
         [HttpGet]
@@ -92,7 +93,8 @@ namespace GcwensaHrApp.Controllers
         {
             await _leaveRequestIO.CancelLeaveRequest(leaveId);
 
-            return RedirectToAction("Index", "Dashboard");
+            return Ok();
+            //return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> DeleteLeaveRequest(int leaveId)

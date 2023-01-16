@@ -6,6 +6,8 @@ namespace GcwensaHrApp.ViewModels
 {
     public class LeaveRequestViewModel
     {
+        public string LeaveRequestOwner { get; set; }
+
         public int LeaveId { get; set; }
         
         [Required]  
@@ -21,5 +23,11 @@ namespace GcwensaHrApp.ViewModels
 
         [Required]  
         public string LeaveReason { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public LeaveStatus LeaveStatus { get; set; }
+
+        public int LeaveDaysDuration { get; set; }
     }
 }

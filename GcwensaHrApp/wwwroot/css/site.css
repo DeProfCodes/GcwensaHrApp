@@ -206,3 +206,13 @@ body {
     border-bottom: 3px solid #ff8400;
     padding-bottom: 10px;
 }
+
+.hidden
+{
+    display: none !important;
+}
+
+#LoginLogo
+{
+    width: 30%;
+}

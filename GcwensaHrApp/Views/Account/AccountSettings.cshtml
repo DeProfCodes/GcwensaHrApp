@@ -1,0 +1,112 @@
+﻿@using GcwensaHrApp.Enums;
+@model GcwensaHrApp.ViewModels.UserDetailsViewModel
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+@{
+    ViewData["Title"] = "Account Settings";
+}
+
+<div class="w-100" id="UsersManagementPage">
+    <div class="row w-100" id="UsersManagementHeader">
+        <div>
+            <p class="fs-8 text-white">Account <span class="font-weight-bold"> Settings</span></p>
+        </div>
+        <div style="margin-left:auto">
+            <p> <a class="btn btn-sm action-link" onclick="GoBack()" style="background: lightcyan;"><i class="fa fa-arrow-left" style="margin-right:5px"></i>Back</a> </p>
+        </div>
+    </div>
+    <div id="PageContainer">
+        <div class="row" id="PageFormContainer">
+            <h1 class="w-100 text-center fs-10 heading-undeline">Account Details</h1>
+            <div class="w-100" style="margin-top:20px">
+                <form asp-action="AccountSettings">
+                    <div asp-validation-summary="ModelOnly" class="text-danger fs-4"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="AccountStatus" />
+                    <div class="form-group">
+                        <label asp-for="Firstname" class="control-label fs-4"></label>
+                        <input asp-for="Firstname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="Firstname" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Lastname" class="control-label fs-4"></label>
+                        <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="Lastname" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label fs-4"></label>
+                        <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" disabled/>
+                        <span asp-validation-for="Email" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="fs-4">
+                            <input asp-for="ResetPassword" class="brandColor" onclick='handleClick(this);'/>
+                            Change Password
+                        </label>
+                    </div>
+                    <div class="form-group" id="newPassword" style="display:none">
+                        <label class="fs-4">Password</label>
+                        <div style="display:flex">
+                            <input asp-for="Password" class="form-control txtBox-3 custom-Input-Box1 fs-4" id="password-field" type="password" placeholder="PASSWORD" />
+                            <span toggle="#password-field" class="fa fa-eye field-icon toggle-password" style="margin-left: -30px;margin-top: 10px;color:silver"></span>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label fs-4"></label>
+                        <input asp-for="PhoneNumber" class="form-control txtBox-3 custom-Input-Box1 fs-4 txtBox-3 custom-Input-Box1 fs-4" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger fs-4"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn fs-5 txtBox-8" id="LoginBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Loading..." onclick="ButtonLoader()" style="color:#005AEE;border-color:#005AEE">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+<script>
+
+    function GoBack()
+    {
+        var url = "@Url.Action("Index", "Dashboard")";
+        window.location = url;
+    }
+
+    function handleClick(cb)
+    {
+        if (cb.checked)
+        {
+            $("#newPassword").show();
+        }
+        else
+        {
+            $("#newPassword").val("");
+            $("#newPassword").hide();
+        }
+    }
+
+    $(".toggle-password").click(function ()
+    {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password")
+        {
+            input.attr("type", "text");
+        }
+        else
+        {
+            input.attr("type", "password");
+        }
+    });
+
+</script>

@@ -5,7 +5,7 @@ namespace GcwensaHrApp.ViewModels
 {
     public class DashboardViewModel
     {
-        public List<LeaveRequest> LeaveRequests { get; set; }
+        public List<LeaveRequestViewModel> LeaveRequests { get; set; }
 
         public UserDetailsViewModel UserDetails { get; set; }
     }

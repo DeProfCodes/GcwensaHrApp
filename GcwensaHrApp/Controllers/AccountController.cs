@@ -13,6 +13,12 @@ using System.Text;
 using System.Threading.Tasks;
 using GcwensaHrApp.Models;
 using GcwensaHrApp.Enums;
+using GcwensaHrApp.BusinessLogic;
+using GcwensaHrApp.Helpers;
+using System;
+using Microsoft.EntityFrameworkCore.Storage;
+using GcwensaHrApp.Data;
+using GcwensaHrApp.ViewModels;
 
 namespace GcwensaHrApp.Controllers
 {
@@ -21,14 +27,18 @@ namespace GcwensaHrApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IUserDataManagement _usersIO;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger, IEmailSender emailSender)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger, IEmailSender emailSender, IUserDataManagement usersIO, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _usersIO = usersIO;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -131,6 +141,53 @@ namespace GcwensaHrApp.Controllers
 
             // If we got this far, something failed, redisplay form
             return View();
+        }
+
+        public async Task<IActionResult> AccountSettings()
+        {
+            var user = await _usersIO.GetUserByEmail(User.Identity.Name);
+            var userDtailsVm = ViewModelHelper.CreateUserViewModel(user, "");
+            
+            return View(userDtailsVm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AccountSettings(UserDetailsViewModel userViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                userViewModel.Email = User.Identity.Name;
+                if (!string.IsNullOrEmpty(userViewModel.Password))
+                {
+                    if (!Validators.IsValidPassword(userViewModel.Password))
+                    {
+                        ModelState.AddModelError(string.Empty, "Password must 8 or more characters, upper case, lowecase, number, special characters!");
+                        return View(userViewModel);
+                    }
+                }
+
+                IDbContextTransaction transaction = _dbContext.Database.BeginTransaction();
+                try
+                {
+                    await _usersIO.EditUser(userViewModel);
+
+                    transaction.Commit();
+
+                    return RedirectToAction("Index", "Dashboard");
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+
+                    ModelState.AddModelError(string.Empty, e.Message);
+                    return View(userViewModel);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error.");
+                return View(userViewModel);
+            }
         }
 
         public async Task<IActionResult> Logout()

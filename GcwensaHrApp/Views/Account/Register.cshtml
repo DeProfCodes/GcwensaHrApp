@@ -9,7 +9,10 @@
 
 <div id="PageContainer">
     <div class="row" id="PageFormContainer">
-        <h1 class="w-100 text-center fs-10">Please Signup</h1>
+        <div class="text-center w-100">
+            <img src="../img/logo.png" id="LoginLogo" />
+        </div>
+        <h1 class="w-100 text-center fs-10" style="margin-top: 30px;">Please Signup</h1>
         <div class="w-100" style="margin-top:20px">
             <section>
                 <form asp-action="Register" id="account" method="post" onsubmit="ButtonLoader()">
@@ -28,12 +31,12 @@
                         <label class="fs-4">*Lastname</label>
                         <input asp-for="Lastname" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="LASTNAME" />
                         <span asp-validation-for="Lastname" class="text-danger"></span>
-                    </div
-                    <di class="form-group">
+                    </div>
+                    <div class="form-group">
                         <label class="fs-4">*Email</label>
                         <input asp-for="Email" class="form-control txtBox-3 custom-Input-Box1 fs-4" placeholder="EMAIL" />
                         <span asp-validation-for="Email" class="text-danger"></span>
-                    </di>
+                    </div>
                     <div class="form-group">
                         <label class="fs-4">*Password</label>
                         <div style="display:flex">
